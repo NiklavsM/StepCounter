@@ -1,0 +1,14 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:key="notifications"
+        app:title="Enable notifications" />
+    <SwitchPreferenceCompat
+        app:key="goal_switching"
+        app:title="Enable goal switching" />
+    <SwitchPreferenceCompat
+        app:key="manual_recording"
+        app:defaultValue="true"
+        app:title="Record steps manually" />
+
+</PreferenceScreen>

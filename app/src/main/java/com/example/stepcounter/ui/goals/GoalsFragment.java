@@ -1,4 +1,4 @@
-package com.example.stepcounter.ui.dashboard;
+package com.example.stepcounter.ui.goals;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,21 +10,21 @@ import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.stepcounter.R;
 
-public class DashboardFragment extends Fragment {
+public class GoalsFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private GoalsViewModel goalsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        goalsViewModel =
+                new ViewModelProvider(requireActivity()).get(GoalsViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_goals, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(this, new Observer<String>() {
+        goalsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
