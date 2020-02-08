@@ -23,7 +23,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ID;
+import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_NAME;
+import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_STEP_COUNT;
+
 public class GoalsFragment extends Fragment {
+
 
     private GoalsViewModel goalsViewModel;
     private NavController navController;
@@ -41,6 +46,16 @@ public class GoalsFragment extends Fragment {
         final GoalAdapter goalAdapter = new GoalAdapter();
         recyclerView.setAdapter(goalAdapter);
 
+        goalAdapter.setOnItemClickListener(new GoalAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Goal goal) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(GOAL_ID, goal.getId());
+                bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
+                bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
+                navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
+            }
+        });
         goalsViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
             @Override
             public void onChanged(@Nullable List<Goal> goals) {
@@ -58,7 +73,7 @@ public class GoalsFragment extends Fragment {
         btnAddGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(R.id.action_navigation_goals_to_addGoalFragment);
+                navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment);
             }
         });
     }

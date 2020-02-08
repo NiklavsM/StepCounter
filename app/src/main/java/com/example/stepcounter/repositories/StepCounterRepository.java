@@ -75,7 +75,7 @@ public class StepCounterRepository {
 
         @Override
         protected Void doInBackground(Goal... goals) {
-            goalDao.insertGoal(goals[0]);
+            goalDao.updateGoal(goals[0]);
             return null;
         }
     }

@@ -1,9 +1,12 @@
 package com.example.stepcounter.ui.goals;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,11 +21,18 @@ import androidx.navigation.Navigation;
 import com.example.stepcounter.R;
 import com.example.stepcounter.database.Goal;
 
-public class AddGoalFragment extends Fragment {
+import static com.example.stepcounter.utils.Utils.hideKeyboard;
 
-    private AddGoalViewModel mViewModel;
+public class AddEditGoalFragment extends Fragment {
+
+
+    public static final String GOAL_ID = "GOAL_ID";
+    public static final String GOAL_NAME = "GOAL_NAME";
+    public static final String GOAL_STEP_COUNT = "GOAL_STEP_COUNT";
+
+    private AddEditGoalViewModel mViewModel;
     private NavController navController;
-    private Button btnAddGoal;
+    private Button btnSaveGoal;
     private TextView etGoalName;
     private TextView etStepCount;
 
@@ -33,13 +43,14 @@ public class AddGoalFragment extends Fragment {
 
         etGoalName = view.findViewById(R.id.goal_name_et);
         etStepCount = view.findViewById(R.id.goal_steps_et);
-        btnAddGoal = view.findViewById(R.id.add_goal_btn);
-        btnAddGoal.setOnClickListener(new View.OnClickListener() {
+        btnSaveGoal = view.findViewById(R.id.save_goal_btn);
+        btnSaveGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addGoal();
+                saveGoal();
             }
         });
+
         return view;
     }
 
@@ -47,18 +58,35 @@ public class AddGoalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+        System.out.println(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            etGoalName.setText(bundle.getString(GOAL_NAME));
+            etStepCount.setText(bundle.getString(GOAL_STEP_COUNT));
+        }
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(requireActivity()).get(AddGoalViewModel.class);
+        mViewModel = new ViewModelProvider(requireActivity()).get(AddEditGoalViewModel.class);
     }
 
-    private void addGoal() {
-        mViewModel.addGoal(new Goal(etGoalName.getText().toString(), Integer.parseInt(etStepCount.getText().toString())));
-        navController.navigate(R.id.action_addGoalFragment_to_navigation_goals);
+    private void saveGoal() {
+
+        Bundle bundle = getArguments();
+        String goalName = etGoalName.getText().toString();
+        int stepCount = Integer.parseInt(etStepCount.getText().toString());
+        if (bundle != null) {
+            int id = bundle.getInt(GOAL_ID);
+            mViewModel.updateGoal(new Goal(id, goalName, stepCount));
+        } else {
+            mViewModel.addGoal(new Goal(goalName, stepCount));
+        }
+        navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
+        hideKeyboard(requireActivity());
     }
+
 
 }

@@ -1,6 +1,5 @@
 package com.example.stepcounter.ui.goals;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
     private List<Goal> goals = new ArrayList<>();
+    private OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -52,10 +52,24 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_goal_name);
             tvCount = itemView.findViewById(R.id.tv_goal_step_count);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(goals.get(position));
+                    }
+                }
+            });
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Goal goal);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }
