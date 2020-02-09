@@ -1,19 +1,51 @@
 package com.example.stepcounter.ui.home;
 
+import android.app.Application;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+import com.example.stepcounter.database.HistoryEntity;
+import com.example.stepcounter.repositories.GoalsRepository;
+import com.example.stepcounter.repositories.HistoryRepository;
 
-    private MutableLiveData<String> mText;
+public class HomeViewModel extends AndroidViewModel {
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    private HistoryRepository historyRepository;
+    private GoalsRepository repository;
+    private LiveData<HistoryEntity> today;
+
+    public HomeViewModel(@NonNull Application application) {
+        super(application);
+        historyRepository = HistoryRepository.getInstance(application);
+        today = historyRepository.getToday();
+        //addToday();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    // Adds history if day already does not have an entry
+    private void addToday() { //TODO maybe put somewhere else
+
+        if (today.getValue() != null) {
+            Log.d("History  !!!", String.valueOf(today.getValue().getStepsTaken()));
+        } else {
+            Log.d("History  !!!", "History not there");
+            historyRepository.insertHistory();
+        }
+    }
+
+    public LiveData<HistoryEntity> getToday() {
+        return today;
+    }
+
+    public void addToHistory(int steps) {
+        HistoryEntity history = today.getValue();
+        history.setStepsTaken(today.getValue().getStepsTaken() + steps);
+        historyRepository.updateHistory(history);
+    }
+
+    public void addNewDay() {
+        historyRepository.insertHistory();
     }
 }

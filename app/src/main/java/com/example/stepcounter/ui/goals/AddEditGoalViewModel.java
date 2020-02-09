@@ -7,18 +7,18 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.stepcounter.database.Goal;
-import com.example.stepcounter.repositories.StepCounterRepository;
+import com.example.stepcounter.repositories.GoalsRepository;
 
 import java.util.List;
 
 public class AddEditGoalViewModel extends AndroidViewModel {
 
-    private StepCounterRepository repository;
+    private GoalsRepository repository;
     private LiveData<List<Goal>> allGoals;
 
     public AddEditGoalViewModel(@NonNull Application application) {
         super(application);
-        repository = StepCounterRepository.getInstance(application);
+        repository = GoalsRepository.getInstance(application);
         allGoals = repository.getAllGoals();
     }
 

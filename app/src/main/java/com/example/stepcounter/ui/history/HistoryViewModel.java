@@ -1,19 +1,28 @@
 package com.example.stepcounter.ui.history;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HistoryViewModel extends ViewModel {
+import com.example.stepcounter.database.HistoryEntity;
+import com.example.stepcounter.repositories.HistoryRepository;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
 
-    public HistoryViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is history fragment");
+public class HistoryViewModel extends AndroidViewModel {
+
+    private HistoryRepository repository;
+    private LiveData<List<HistoryEntity>> history;
+
+    public HistoryViewModel(@NonNull Application application) {
+        super(application);
+        repository = HistoryRepository.getInstance(application);
+        history = repository.getAllHistory();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<HistoryEntity>> getHistory() {
+        return history;
     }
 }

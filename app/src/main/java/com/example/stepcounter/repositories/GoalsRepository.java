@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Update;
 
 import com.example.stepcounter.database.AppDatabase;
 import com.example.stepcounter.database.Goal;
@@ -12,20 +11,20 @@ import com.example.stepcounter.database.GoalDao;
 
 import java.util.List;
 
-public class StepCounterRepository {
-    private static StepCounterRepository instance;
+public class GoalsRepository {
+    private static GoalsRepository instance;
     private LiveData<List<Goal>> allGoals;
     private GoalDao goalDao;
 
-    private StepCounterRepository(Application application) {
+    private GoalsRepository(Application application) {
         AppDatabase database = AppDatabase.getInstance(application);
         goalDao = database.goalDao();
         allGoals = goalDao.loadAllGoals();
     }
 
-    public static StepCounterRepository getInstance(Application application) {
+    public static GoalsRepository getInstance(Application application) {
         if (instance == null) {
-            instance = new StepCounterRepository(application);
+            instance = new GoalsRepository(application);
         }
         return instance;
     }
