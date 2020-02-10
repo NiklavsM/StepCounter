@@ -39,7 +39,7 @@ public class AddEditGoalFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_goal_fragment, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_directions_walk_24px); // TODO
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24px); // TODO
 
         etGoalName = view.findViewById(R.id.goal_name_et);
         etStepCount = view.findViewById(R.id.goal_steps_et);
