@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,9 +41,11 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 String stepsToAdd = etAddSteps.getText().toString();
                 if (stepsToAdd.trim().equals("")) {
-                    Toast.makeText(getContext(), "Plsese add steps", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Please add steps", Toast.LENGTH_SHORT).show();
                 } else {
+                    etAddSteps.onEditorAction(EditorInfo.IME_ACTION_DONE);
                     homeViewModel.addToHistory(Integer.parseInt(etAddSteps.getText().toString()));
+                    Toast.makeText(getContext(), stepsToAdd + " steps added", Toast.LENGTH_SHORT).show();
                 }
             }
         });

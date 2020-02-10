@@ -3,6 +3,7 @@ package com.example.stepcounter.ui.history;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         int percentage = (int) 100.0 * currentHistory.getStepsTaken() / currentHistory.getGoalSteps();
         holder.tvProgress.setText(percentage + "%");// TODO fix warning
         holder.tvGoal.setText(currentHistory.getGoalName());
+        if(percentage>=100){
+            holder.imHistoryIcon.setImageResource(R.drawable.ic_star_24px);
+        }
     }
 
     @Override
@@ -53,6 +57,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         private TextView tvDate;
         private TextView tvProgress;
         private TextView tvGoal;
+        private ImageView imHistoryIcon;
 
 
         public HistoryHolder(@NonNull View itemView) {
@@ -60,6 +65,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
             tvDate = itemView.findViewById(R.id.tv_history_date);
             tvProgress = itemView.findViewById(R.id.tv_history_progress);
             tvGoal = itemView.findViewById(R.id.tv_history_goal);
+            imHistoryIcon = itemView.findViewById(R.id.history_icon);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
