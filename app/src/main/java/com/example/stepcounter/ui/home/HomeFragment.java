@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class HomeFragment extends Fragment {
     private EditText etAddSteps;
     private TextView tvActiveGoal;
     private ImageView ivChangeActiveGoal;
+    private TextView tvProgress;
+    private ProgressBar progressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,6 +47,8 @@ public class HomeFragment extends Fragment {
         etAddSteps = root.findViewById(R.id.et_add_steps);
         tvActiveGoal = root.findViewById(R.id.tv_active_goal);
         ivChangeActiveGoal = root.findViewById(R.id.iv_change_active_goal);
+        tvProgress = root.findViewById(R.id.tv_goal_percentage);
+        progressBar = root.findViewById(R.id.progressBar);
 
 
         btnAddSteps.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +109,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(HistoryEntity today) {
                 if (today != null) {
-                    tvStepsTaken.setText("Steps taken: " + String.valueOf(today.getStepsTaken())); // TODO fix warning
+                    tvStepsTaken.setText(String.valueOf(today.getStepsTaken()));
                     tvActiveGoal.setText(today.getGoalName());
+                    int progressPercentage = (int) 100.0 * today.getStepsTaken() / today.getGoalSteps();
+                    tvProgress.setText(String.valueOf(progressPercentage));
+                    progressBar.setProgress(progressPercentage, true);
                 } else {
                     homeViewModel.addNewDay();
                 }
@@ -114,4 +122,5 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
 }

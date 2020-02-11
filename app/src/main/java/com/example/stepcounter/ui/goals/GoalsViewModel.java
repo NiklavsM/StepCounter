@@ -26,4 +26,8 @@ public class GoalsViewModel extends AndroidViewModel {
     public LiveData<List<Goal>> getGoals() {
         return goals;
     }
+
+    public void removeGoal(Goal goal) {
+        repository.deleteGoal(goal);
+    }
 }

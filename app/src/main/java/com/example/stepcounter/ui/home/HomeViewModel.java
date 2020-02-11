@@ -49,6 +49,7 @@ public class HomeViewModel extends AndroidViewModel {
         Log.d("NEW GOAL", "NEW GOAL " + today.getValue().getGoalName());
         HistoryEntity history = today.getValue();
         history.setGoalName(goal.getName());
+        history.setGoalSteps(goal.getSteps());
         historyRepository.updateHistory(history);
     }
 

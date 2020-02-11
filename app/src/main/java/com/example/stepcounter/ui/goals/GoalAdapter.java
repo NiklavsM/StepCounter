@@ -43,6 +43,14 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
         notifyDataSetChanged();
     }
 
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public Goal getGoalAtIndex(int index) {
+        return goals.get(index);
+    }
+
     class GoalHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName;

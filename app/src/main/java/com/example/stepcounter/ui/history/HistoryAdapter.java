@@ -35,9 +35,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
 
         holder.tvDate.setText(fromLongToDateString((long) currentHistory.getDay()));
         int percentage = (int) 100.0 * currentHistory.getStepsTaken() / currentHistory.getGoalSteps();
-        holder.tvProgress.setText(percentage + "%");// TODO fix warning
+        holder.tvProgress.setText(String.valueOf(percentage));
         holder.tvGoal.setText(currentHistory.getGoalName());
-        if(percentage>=100){
+        holder.tvStepsTaken.setText(currentHistory.getStepsTaken() + "/" + currentHistory.getGoalSteps());
+        if (percentage >= 100) {
             holder.imHistoryIcon.setImageResource(R.drawable.ic_star_24px);
         }
     }
@@ -57,6 +58,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         private TextView tvDate;
         private TextView tvProgress;
         private TextView tvGoal;
+        private TextView tvStepsTaken;
         private ImageView imHistoryIcon;
 
 
@@ -65,6 +67,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
             tvDate = itemView.findViewById(R.id.tv_history_date);
             tvProgress = itemView.findViewById(R.id.tv_history_progress);
             tvGoal = itemView.findViewById(R.id.tv_history_goal);
+            tvStepsTaken = itemView.findViewById(R.id.tv_history_steps_taken);
             imHistoryIcon = itemView.findViewById(R.id.history_icon);
 
             itemView.setOnClickListener(new View.OnClickListener() {

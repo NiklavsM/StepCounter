@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="351dp"
         android:layout_height="65dp"
         android:layout_marginTop="120dp"
@@ -35,9 +36,9 @@
             android:layout_marginStart="98dp"
             android:layout_marginBottom="12dp"
             android:ems="10"
-            android:textAlignment="center"
             android:hint="Add steps"
-            android:inputType="number" />
+            android:inputType="numberSigned"
+            android:textAlignment="center" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -65,29 +66,54 @@
         app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
 
-
-
-    <TextView
-        android:id="@+id/tv_goal_percentage"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:text="90%"
-        android:textSize="50dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toTopOf="@+id/progressBar" />
+        app:layout_constraintTop_toTopOf="@+id/progressBar">
 
-    <TextView
-        android:id="@+id/tv_home_steps_taken"
+        <TextView
+            android:id="@+id/tv_goal_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="90"
+            android:textSize="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/tv_goal_percentage"
+            android:text="%"
+            android:textSize="30dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Steps: 2552"
+        android:layout_marginTop="144dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@+id/tv_goal_percentage" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
+        <TextView
+            android:id="@+id/tv_home_steps_taken_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="20dp"
+            android:text="Steps taken: " />
+
+        <TextView
+            android:id="@+id/tv_home_steps_taken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/tv_home_steps_taken_label"
+            tools:text="2552" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="342dp"
@@ -121,7 +147,6 @@
             android:layout_marginTop="12dp"
             android:text="Iron Man"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-
             />
 
         <ImageView
