@@ -30,17 +30,6 @@ public class HomeViewModel extends AndroidViewModel {
         goals = goalsRepository.getAllGoals();
     }
 
-    // Adds history if day already does not have an entry
-    private void addToday() { //TODO maybe put somewhere else
-
-        if (today.getValue() != null) {
-            Log.d("History  !!!", String.valueOf(today.getValue().getStepsTaken()));
-        } else {
-            Log.d("History  !!!", "History not there");
-            historyRepository.insertHistory();
-        }
-    }
-
     public LiveData<HistoryEntity> getToday() {
         return today;
     }

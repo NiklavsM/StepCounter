@@ -44,12 +44,7 @@ public class AddEditGoalFragment extends Fragment {
         etGoalName = view.findViewById(R.id.goal_name_et);
         etStepCount = view.findViewById(R.id.goal_steps_et);
         btnSaveGoal = view.findViewById(R.id.save_goal_btn);
-        btnSaveGoal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveGoal();
-            }
-        });
+        btnSaveGoal.setOnClickListener(v -> saveGoal());
 
         return view;
     }

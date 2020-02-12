@@ -33,12 +33,7 @@ public class HistoryFragment extends Fragment {
         final HistoryAdapter historyAdapter = new HistoryAdapter();
         recyclerView.setAdapter(historyAdapter);
 
-        historyViewModel.getHistory().observe(getViewLifecycleOwner(), new Observer<List<HistoryEntity>>() {
-            @Override
-            public void onChanged(List<HistoryEntity> historyEntities) {
-                historyAdapter.setHistory(historyEntities);
-            }
-        });
+        historyViewModel.getHistory().observe(getViewLifecycleOwner(), historyEntities -> historyAdapter.setHistory(historyEntities));
 
         return root;
     }

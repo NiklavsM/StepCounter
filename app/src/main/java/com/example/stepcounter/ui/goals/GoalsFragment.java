@@ -4,13 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -21,8 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.stepcounter.R;
 import com.example.stepcounter.database.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
+import com.google.android.material.snackbar.Snackbar;
 
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ID;
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_NAME;
@@ -47,22 +43,14 @@ public class GoalsFragment extends Fragment {
         final GoalAdapter goalAdapter = new GoalAdapter();
         recyclerView.setAdapter(goalAdapter);
 
-        goalAdapter.setOnItemClickListener(new GoalAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Goal goal) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(GOAL_ID, goal.getId());
-                bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
-                bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
-                navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
-            }
+        goalAdapter.setOnItemClickListener(goal -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt(GOAL_ID, goal.getId());
+            bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
+            bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
+            navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
         });
-        goalsViewModel.getGoals().observe(getViewLifecycleOwner(), new Observer<List<Goal>>() {
-            @Override
-            public void onChanged(@Nullable List<Goal> goals) {
-                goalAdapter.setGoals(goals);
-            }
-        });
+        goalsViewModel.getGoals().observe(getViewLifecycleOwner(), goals -> goalAdapter.setGoals(goals));
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
@@ -71,12 +59,21 @@ public class GoalsFragment extends Fragment {
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                Goal goalToRemove = goalAdapter.getGoalAtIndex(viewHolder.getAdapterPosition());
+                goalsViewModel.removeGoal(goalToRemove);
+                showUndoSnackbar(goalToRemove);
 
-                goalsViewModel.removeGoal(goalAdapter.getGoalAtIndex(viewHolder.getAdapterPosition()));
             }
         }).attachToRecyclerView(recyclerView);
         return root;
+    }
+
+    private void showUndoSnackbar(final Goal goal) {
+        Snackbar snackbar = Snackbar.make(getView(), goal.getName()+ " goal removed",
+                Snackbar.LENGTH_LONG);
+        snackbar.setAction("Undo", v -> goalsViewModel.addGoal(goal));
+        snackbar.show();
     }
 
     @Override
@@ -84,11 +81,6 @@ public class GoalsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         btnAddGoal = view.findViewById(R.id.add_goal_btn);
-        btnAddGoal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment);
-            }
-        });
+        btnAddGoal.setOnClickListener(v -> navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment));
     }
 }

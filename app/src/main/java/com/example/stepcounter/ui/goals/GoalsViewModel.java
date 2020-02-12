@@ -30,4 +30,8 @@ public class GoalsViewModel extends AndroidViewModel {
     public void removeGoal(Goal goal) {
         repository.deleteGoal(goal);
     }
+
+    public void addGoal(Goal goal) {
+        repository.insertGoal(goal);
+    }
 }
