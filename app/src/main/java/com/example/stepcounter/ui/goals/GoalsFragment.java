@@ -1,5 +1,6 @@
 package com.example.stepcounter.ui.goals;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.example.stepcounter.database.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ACTIVE;
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ID;
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_NAME;
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_STEP_COUNT;
@@ -43,15 +46,25 @@ public class GoalsFragment extends Fragment {
         final GoalAdapter goalAdapter = new GoalAdapter();
         recyclerView.setAdapter(goalAdapter);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         goalAdapter.setOnItemClickListener(goal -> {
+            if (!sharedPreferences.getBoolean("goal_switching", true)) {
+                Snackbar.make(root, "In order to edit goals enable goal editing in the settings", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+            if (goal.isActive()) {
+                Snackbar.make(root, "Cannot edit active goal", Snackbar.LENGTH_LONG).show();
+                return;
+            }
             Bundle bundle = new Bundle();
             bundle.putInt(GOAL_ID, goal.getId());
-            bundle.putBoolean(GOAL_ID, goal.isActive());
+            bundle.putBoolean(GOAL_ACTIVE, goal.isActive());
             bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
             bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
             navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
         });
-        goalsViewModel.getGoals().observe(getViewLifecycleOwner(), goals -> goalAdapter.setGoals(goals));
+
+        goalsViewModel.getGoals().observe(getActivity(), goalAdapter::setGoals);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
@@ -84,4 +97,5 @@ public class GoalsFragment extends Fragment {
         btnAddGoal = view.findViewById(R.id.add_goal_btn);
         btnAddGoal.setOnClickListener(v -> navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment));
     }
+
 }

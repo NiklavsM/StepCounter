@@ -6,42 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.goals.AddEditGoalFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:text="Save Goal"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.127" />
 
     <EditText
         android:id="@+id/goal_name_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="156dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/goal_steps_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="96dp"
         android:ems="10"
         android:hint="Steps"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:maxLength="6"
+        app:layout_constraintEnd_toEndOf="@+id/goal_name_et"
         app:layout_constraintStart_toStartOf="@+id/goal_name_et"
         app:layout_constraintTop_toBottomOf="@+id/goal_name_et" />
 
@@ -49,11 +35,10 @@
         android:id="@+id/save_goal_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="56dp"
         android:text="Save Goal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.659"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/goal_steps_et"
+        app:layout_constraintStart_toStartOf="@+id/goal_steps_et"
         app:layout_constraintTop_toBottomOf="@+id/goal_steps_et" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

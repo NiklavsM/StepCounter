@@ -15,6 +15,9 @@ public interface GoalDao {
     @Query("SELECT * FROM goal ORDER BY steps")
     LiveData<List<Goal>> loadAllGoals();
 
+    @Query("SELECT * FROM goal ORDER BY steps")
+    List<Goal> loadAllGoalsStatic();
+
     @Insert
     void insertGoal(Goal goal);
 

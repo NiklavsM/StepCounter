@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="8dp">
@@ -11,39 +11,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/goal_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <TextView
+
+            android:id="@+id/active_goal_active_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
-            android:src="@drawable/ic_star_24px"
-            android:textSize="24sp" />
+            android:layout_marginLeft="10dp"
+            android:text="Active"
+            android:textColor="#21DD00"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/goal_icon"
             android:padding="8dp">
 
             <TextView
                 android:id="@+id/tv_goal_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:ellipsize="end"
                 android:maxLines="1"
-                tools:text="Iron Man"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                tools:text="Iron Man" />
 
             <TextView
                 android:id="@+id/tv_goal_step_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="1000"
-                 />
+                tools:text="1000" />
 
             <TextView
                 android:layout_width="wrap_content"

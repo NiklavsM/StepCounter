@@ -10,6 +10,7 @@ import com.example.stepcounter.database.Goal;
 import com.example.stepcounter.database.GoalDao;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class GoalsRepository {
     private static GoalsRepository instance;
@@ -42,7 +43,12 @@ public class GoalsRepository {
     }
 
     public Goal getActiveGoal() {
-        return goalDao.getActiveGoal();
+        try {
+            return new GetActiveGoalAsyncTask(goalDao).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void deleteAllGoals() {
@@ -51,6 +57,16 @@ public class GoalsRepository {
 
     public LiveData<List<Goal>> getAllGoals() {
         return allGoals;
+    }
+
+
+    public List<Goal> getAllGoalsStatic() {
+        try {
+            return new GetAllGoalsStaticAsyncTask(goalDao).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private static class InsertGoalAsyncTask extends AsyncTask<Goal, Void, Void> {
@@ -110,6 +126,34 @@ public class GoalsRepository {
         protected Void doInBackground(Void... voids) {
             goalDao.deleteAllGoals();
             return null;
+        }
+    }
+
+    private static class GetActiveGoalAsyncTask extends AsyncTask<Void, Void, Goal> {
+
+        private GoalDao goalDao;
+
+        private GetActiveGoalAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected Goal doInBackground(Void... voids) {
+            return goalDao.getActiveGoal();
+        }
+    }
+
+    private static class GetAllGoalsStaticAsyncTask extends AsyncTask<Void, Void, List<Goal>> {
+
+        private GoalDao goalDao;
+
+        private GetAllGoalsStaticAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected List<Goal> doInBackground(Void... voids) {
+            return goalDao.loadAllGoalsStatic();
         }
     }
 

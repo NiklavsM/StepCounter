@@ -18,7 +18,6 @@ public class HomeViewModel extends AndroidViewModel {
 
     private HistoryRepository historyRepository;
     private GoalsRepository goalsRepository;
-    private LiveData<List<Goal>> goals;
     private LiveData<HistoryEntity> today;
 
     public HomeViewModel(@NonNull Application application) {
@@ -27,7 +26,6 @@ public class HomeViewModel extends AndroidViewModel {
         goalsRepository = GoalsRepository.getInstance(application);
 
         today = historyRepository.getToday();
-        goals = goalsRepository.getAllGoals();
     }
 
     public LiveData<HistoryEntity> getToday() {
@@ -35,15 +33,20 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void setNewActiveGoal(Goal goal) {
+        Goal oldGoal = goalsRepository.getActiveGoal();
+        oldGoal.setActive(false);
+        goalsRepository.updateGoal(oldGoal);
         Log.d("NEW GOAL", "NEW GOAL " + today.getValue().getGoalName());
         HistoryEntity history = today.getValue();
         history.setGoalName(goal.getName());
         history.setGoalSteps(goal.getSteps());
+        goal.setActive(true);
+        goalsRepository.updateGoal(goal);
         historyRepository.updateHistory(history);
     }
 
-    public LiveData<List<Goal>> getGoals() {
-        return goals;
+    public List<Goal> getGoals() {
+        return goalsRepository.getAllGoalsStatic();
     }
 
     public void addToHistory(int steps) {

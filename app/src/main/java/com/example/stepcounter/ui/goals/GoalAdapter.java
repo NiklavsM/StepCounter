@@ -1,5 +1,6 @@
 package com.example.stepcounter.ui.goals;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,11 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
         Goal currentGoal = goals.get(position);
         holder.tvCount.setText(String.valueOf(currentGoal.getSteps()));
         holder.tvName.setText(currentGoal.getName());
+        if (currentGoal.isActive()) {
+            holder.tvActiveGoalLabel.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvActiveGoalLabel.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -40,11 +46,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
+        Log.v("UPDATE GOALS", "UPDATE GOALS");
         notifyDataSetChanged();
-    }
-
-    public List<Goal> getGoals() {
-        return goals;
     }
 
     public Goal getGoalAtIndex(int index) {
@@ -55,11 +58,13 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
 
         private TextView tvName;
         private TextView tvCount;
+        private TextView tvActiveGoalLabel;
 
         public GoalHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tv_goal_name);
             tvCount = itemView.findViewById(R.id.tv_goal_step_count);
+            tvActiveGoalLabel = itemView.findViewById(R.id.active_goal_active_label);
 
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
@@ -68,6 +73,8 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
                 }
             });
         }
+
+
     }
 
     public interface OnItemClickListener {

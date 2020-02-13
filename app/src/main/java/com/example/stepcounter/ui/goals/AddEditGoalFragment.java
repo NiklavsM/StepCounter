@@ -1,12 +1,9 @@
 package com.example.stepcounter.ui.goals;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -28,7 +25,7 @@ public class AddEditGoalFragment extends Fragment {
 
     public static final String GOAL_ID = "GOAL_ID";
     public static final String GOAL_NAME = "GOAL_NAME";
-    public static final String ACTIVE_GOAL = "ACTIVE_GOAL";
+    public static final String GOAL_ACTIVE = "GOAL_ACTIVE";
     public static final String GOAL_STEP_COUNT = "GOAL_STEP_COUNT";
 
     private AddEditGoalViewModel mViewModel;
@@ -76,7 +73,7 @@ public class AddEditGoalFragment extends Fragment {
         int stepCount = Integer.parseInt(etStepCount.getText().toString());
         if (bundle != null) {
             int id = bundle.getInt(GOAL_ID);
-            boolean active = bundle.getBoolean(ACTIVE_GOAL);
+            boolean active = bundle.getBoolean(GOAL_ACTIVE);
             mViewModel.updateGoal(new Goal(id, goalName, stepCount, active));
         } else {
             mViewModel.addGoal(new Goal(goalName, stepCount));

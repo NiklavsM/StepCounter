@@ -17,7 +17,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
         <service
             android:name=".services.AutoHistoryService"
