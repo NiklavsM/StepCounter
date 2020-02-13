@@ -52,7 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            goalDao.insertGoal(new Goal("CDC's minimum", 2000));
+            goalDao.insertGoal(new Goal("CDC's minimum", 2000, true));
             goalDao.insertGoal(new Goal("4 digits reached", 1000));
             goalDao.insertGoal(new Goal("Iron man", 20000));
             goalDao.insertGoal(new Goal("10 000 steps", 10000));

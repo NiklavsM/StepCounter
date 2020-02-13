@@ -41,6 +41,10 @@ public class GoalsRepository {
         new DeleteGoalAsyncTask(goalDao).execute(goal);
     }
 
+    public Goal getActiveGoal() {
+        return goalDao.getActiveGoal();
+    }
+
     public void deleteAllGoals() {
         new DeleteAllGoalsAsyncTask(goalDao).execute();
     }

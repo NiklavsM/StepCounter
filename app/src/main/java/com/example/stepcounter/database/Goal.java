@@ -11,17 +11,27 @@ public class Goal {
     private int id;
     private String name;
     private int steps;
+    private boolean active;
 
-    public Goal(int id, String name, int steps) {
+    public Goal(int id, String name, int steps, boolean active) {
         this.id = id;
         this.name = name;
         this.steps = steps;
+        this.active = active;
+    }
+
+    @Ignore
+    public Goal(String name, int steps, boolean active) {
+        this.name = name;
+        this.steps = steps;
+        this.active = active;
     }
 
     @Ignore
     public Goal(String name, int steps) {
         this.name = name;
         this.steps = steps;
+        this.active = false;
     }
 
     public int getId() {
@@ -46,5 +56,13 @@ public class Goal {
 
     public void setSteps(int steps) {
         this.steps = steps;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

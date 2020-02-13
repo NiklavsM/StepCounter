@@ -46,6 +46,7 @@ public class GoalsFragment extends Fragment {
         goalAdapter.setOnItemClickListener(goal -> {
             Bundle bundle = new Bundle();
             bundle.putInt(GOAL_ID, goal.getId());
+            bundle.putBoolean(GOAL_ID, goal.isActive());
             bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
             bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
             navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
@@ -70,7 +71,7 @@ public class GoalsFragment extends Fragment {
     }
 
     private void showUndoSnackbar(final Goal goal) {
-        Snackbar snackbar = Snackbar.make(getView(), goal.getName()+ " goal removed",
+        Snackbar snackbar = Snackbar.make(getView(), goal.getName() + " goal removed",
                 Snackbar.LENGTH_LONG);
         snackbar.setAction("Undo", v -> goalsViewModel.addGoal(goal));
         snackbar.show();

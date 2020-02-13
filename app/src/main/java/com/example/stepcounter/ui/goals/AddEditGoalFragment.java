@@ -28,6 +28,7 @@ public class AddEditGoalFragment extends Fragment {
 
     public static final String GOAL_ID = "GOAL_ID";
     public static final String GOAL_NAME = "GOAL_NAME";
+    public static final String ACTIVE_GOAL = "ACTIVE_GOAL";
     public static final String GOAL_STEP_COUNT = "GOAL_STEP_COUNT";
 
     private AddEditGoalViewModel mViewModel;
@@ -75,7 +76,8 @@ public class AddEditGoalFragment extends Fragment {
         int stepCount = Integer.parseInt(etStepCount.getText().toString());
         if (bundle != null) {
             int id = bundle.getInt(GOAL_ID);
-            mViewModel.updateGoal(new Goal(id, goalName, stepCount));
+            boolean active = bundle.getBoolean(ACTIVE_GOAL);
+            mViewModel.updateGoal(new Goal(id, goalName, stepCount, active));
         } else {
             mViewModel.addGoal(new Goal(goalName, stepCount));
         }

@@ -99,8 +99,6 @@ public class HomeFragment extends Fragment {
                 int progressPercentage = (int) 100.0 * today.getStepsTaken() / today.getGoalSteps();
                 tvProgress.setText(String.valueOf(progressPercentage));
                 progressBar.setProgress(progressPercentage, true);
-            } else {
-                homeViewModel.addNewDay();
             }
         });
 

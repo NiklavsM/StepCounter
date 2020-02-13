@@ -31,8 +31,7 @@ public class HistoryRepository {
         return instance;
     }
 
-    public void insertHistory() {
-       HistoryEntity history =  new HistoryEntity(Utils.getTodayNoTime(),0, "Default goal", 10000);
+    public void insertHistory(HistoryEntity history) {
         new InsertHistoryAsyncTask(historyDao).execute(history);
     }
 

@@ -19,6 +19,9 @@
             </intent-filter>
             android:windowSoftInputMode="adjustPan"
         </activity>
+        <service
+            android:name=".services.AutoHistoryService"
+            android:exported="false" />
     </application>
 
 </manifest>

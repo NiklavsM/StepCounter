@@ -34,7 +34,7 @@ public class HomeViewModel extends AndroidViewModel {
         return today;
     }
 
-    public void setNewActiveGoal(Goal goal){
+    public void setNewActiveGoal(Goal goal) {
         Log.d("NEW GOAL", "NEW GOAL " + today.getValue().getGoalName());
         HistoryEntity history = today.getValue();
         history.setGoalName(goal.getName());
@@ -50,9 +50,5 @@ public class HomeViewModel extends AndroidViewModel {
         HistoryEntity history = today.getValue();
         history.setStepsTaken(today.getValue().getStepsTaken() + steps);
         historyRepository.updateHistory(history);
-    }
-
-    public void addNewDay() {
-        historyRepository.insertHistory();
     }
 }
