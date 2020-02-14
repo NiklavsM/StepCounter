@@ -17,7 +17,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+<!--            android:windowSoftInputMode="State Hidden" >-->
         </activity>
         <service
             android:name=".services.AutoHistoryService"

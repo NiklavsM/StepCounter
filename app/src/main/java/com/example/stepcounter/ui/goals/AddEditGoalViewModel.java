@@ -26,6 +26,10 @@ public class AddEditGoalViewModel extends AndroidViewModel {
         repository.insertGoal(goal);
     }
 
+    public void deleteGoal(int id) {
+        repository.deleteGoalWithId(id);
+    }
+
     public void updateGoal(Goal goal) {
         repository.updateGoal(goal);
     }

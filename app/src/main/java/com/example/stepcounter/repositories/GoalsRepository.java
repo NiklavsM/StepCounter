@@ -42,6 +42,10 @@ public class GoalsRepository {
         new DeleteGoalAsyncTask(goalDao).execute(goal);
     }
 
+    public void deleteGoalWithId(int id) {
+        new DeleteGoalWithIdAsyncTask(goalDao).execute(id);
+    }
+
     public Goal getActiveGoal() {
         try {
             return new GetActiveGoalAsyncTask(goalDao).execute().get();
@@ -113,6 +117,22 @@ public class GoalsRepository {
             return null;
         }
     }
+
+    private static class DeleteGoalWithIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private GoalDao goalDao;
+
+        private DeleteGoalWithIdAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            goalDao.deleteGoalWithId(integers[0]);
+            return null;
+        }
+    }
+
 
     private static class DeleteAllGoalsAsyncTask extends AsyncTask<Void, Void, Void> {
 

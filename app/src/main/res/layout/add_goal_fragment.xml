@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.goals.AddEditGoalFragment">
 
+    <ImageView
+        android:id="@+id/iv_award_icon_add_goal"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_award_star"
+        app:layout_constraintEnd_toEndOf="@+id/goal_name_et"
+        app:layout_constraintStart_toStartOf="@+id/goal_name_et"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/goal_name_et"
@@ -40,5 +49,16 @@
         app:layout_constraintEnd_toEndOf="@+id/goal_steps_et"
         app:layout_constraintStart_toStartOf="@+id/goal_steps_et"
         app:layout_constraintTop_toBottomOf="@+id/goal_steps_et" />
+
+    <ImageView
+        android:id="@+id/iv_delete_goal"
+        android:layout_width="39dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

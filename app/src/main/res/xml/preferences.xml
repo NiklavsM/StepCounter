@@ -1,14 +1,20 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreferenceCompat
+        app:defaultValue="true"
         app:key="notifications"
         app:title="Enable notifications" />
     <SwitchPreferenceCompat
-        app:key="goal_switching"
-        app:title="Enable goal switching" />
-    <SwitchPreferenceCompat
-        app:key="manual_recording"
         app:defaultValue="true"
+        app:key="goal_switching"
+        app:title="Enable goal editing" />
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:key="manual_recording"
         app:title="Record steps manually" />
-
+    <Preference
+        android:icon="@drawable/ic_delete_outline_24px"
+        android:key="@string/delete_all_history"
+        android:title="Delete all history" />
 </PreferenceScreen>

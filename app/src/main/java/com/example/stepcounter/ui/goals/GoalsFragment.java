@@ -53,7 +53,7 @@ public class GoalsFragment extends Fragment {
                 return;
             }
             if (goal.isActive()) {
-                Snackbar.make(root, "Cannot edit active goal", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(root, "Cannot edit an active goal", Snackbar.LENGTH_LONG).show();
                 return;
             }
             Bundle bundle = new Bundle();
@@ -75,10 +75,17 @@ public class GoalsFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
                 Goal goalToRemove = goalAdapter.getGoalAtIndex(viewHolder.getAdapterPosition());
-                goalsViewModel.removeGoal(goalToRemove);
-                showUndoSnackbar(goalToRemove);
+                if (!goalToRemove.isActive()) {
+                    goalsViewModel.removeGoal(goalToRemove);
+                    showUndoSnackbar(goalToRemove);
+                }else{
+                    goalAdapter.notifyDataSetChanged();
+                    Snackbar.make(root, "Cannot delete an active goal", Snackbar.LENGTH_LONG).show();
+                }
 
             }
+
+
         }).attachToRecyclerView(recyclerView);
         return root;
     }
