@@ -17,10 +17,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-<!--            android:windowSoftInputMode="State Hidden" >-->
+            <!--            android:windowSoftInputMode="State Hidden" >-->
         </activity>
+
         <service
             android:name=".services.AutoHistoryService"
+            android:exported="false" />
+        <service
+            android:name=".services.RecordStepsService"
             android:exported="false" />
     </application>
 

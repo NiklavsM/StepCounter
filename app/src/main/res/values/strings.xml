@@ -4,5 +4,6 @@
     <string name="title_goals">Goals</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
-    <string name="delete_all_history">delete_all_history</string>
+    <string name="delete_all_history" translatable="false">delete_all_history</string>
+    <string name="auto_recording" translatable="false">auto_recording</string>
 </resources>

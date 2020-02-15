@@ -30,4 +30,7 @@ public interface HistoryDao {
     @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
     LiveData<HistoryEntity> getToday(float day);
 
+    @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
+    HistoryEntity getTodayStatic(float day);
+
 }

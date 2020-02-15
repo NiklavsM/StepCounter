@@ -13,7 +13,7 @@ import com.example.stepcounter.R;
 import com.example.stepcounter.repositories.HistoryRepository;
 
 public class MySettingsFragment extends PreferenceFragmentCompat {
-    private Preference button;
+    private Preference deleteHistory;
     private HistoryRepository historyRepository;
 
     @Override
@@ -25,9 +25,9 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historyRepository = HistoryRepository.getInstance(getActivity().getApplication());
-        button = findPreference(getString(R.string.delete_all_history));
-        if (button != null) {
-            button.setOnPreferenceClickListener(p -> {
+        deleteHistory = findPreference(getString(R.string.delete_all_history));
+        if (deleteHistory != null) {
+            deleteHistory.setOnPreferenceClickListener(p -> {
                 new AlertDialog.Builder(getContext())
                         .setTitle("Confirmation")
                         .setMessage("Are you sure you want to delete all the history?")

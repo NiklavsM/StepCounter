@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="283dp"
-        android:layout_height="81dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintHorizontal_bias="0.484"

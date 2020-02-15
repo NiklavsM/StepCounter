@@ -56,6 +56,15 @@ public class HistoryRepository {
         return null;
     }
 
+    public HistoryEntity getTodayStatic() {
+        try {
+            return new GetTodayHistoryStaticAsyncTask(historyDao).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public LiveData<List<HistoryEntity>> getAllHistory() {
         return allHistory;
     }
@@ -134,4 +143,17 @@ public class HistoryRepository {
         }
     }
 
+    private static class GetTodayHistoryStaticAsyncTask extends AsyncTask<Void, Void, HistoryEntity> {
+
+        private HistoryDao historyDao;
+
+        private GetTodayHistoryStaticAsyncTask(HistoryDao historyDao) {
+            this.historyDao = historyDao;
+        }
+
+        @Override
+        protected HistoryEntity doInBackground(Void... voids) {
+            return historyDao.getTodayStatic(Utils.getTodayNoTime());
+        }
+    }
 }

@@ -10,9 +10,9 @@
         app:key="goal_switching"
         app:title="Enable goal editing" />
     <SwitchPreferenceCompat
-        app:defaultValue="true"
-        app:key="manual_recording"
-        app:title="Record steps manually" />
+        app:defaultValue="false"
+        app:key="@string/auto_recording"
+        app:title="Record steps automatically" />
     <Preference
         android:icon="@drawable/ic_delete_outline_24px"
         android:key="@string/delete_all_history"
