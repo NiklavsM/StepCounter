@@ -30,10 +30,15 @@ public interface GoalDao {
     @Query("DELETE FROM goal")
     void deleteAllGoals();
 
-    @Query("DELETE FROM goal WHERE goal.id = :id")
+    @Query("DELETE FROM goal WHERE id = :id")
     void deleteGoalWithId(int id);
 
-    @Query("SELECT * FROM goal WHERE goal.active = 1")
+    @Query("SELECT * FROM goal WHERE active = 1")
     Goal getActiveGoal();
 
+    @Query("SELECT * FROM goal WHERE id = :id")
+    Goal getGoalById(int id);
+
+    @Query("SELECT * FROM goal WHERE name = :name")
+    Goal getGoalByName(String name);
 }

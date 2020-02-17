@@ -22,10 +22,7 @@ import com.example.stepcounter.database.Goal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ACTIVE;
 import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_ID;
-import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_NAME;
-import static com.example.stepcounter.ui.goals.AddEditGoalFragment.GOAL_STEP_COUNT;
 
 public class GoalsFragment extends Fragment {
 
@@ -58,9 +55,6 @@ public class GoalsFragment extends Fragment {
             }
             Bundle bundle = new Bundle();
             bundle.putInt(GOAL_ID, goal.getId());
-            bundle.putBoolean(GOAL_ACTIVE, goal.isActive());
-            bundle.putString(GOAL_NAME, goal.getName());//TODO check if not empty
-            bundle.putString(GOAL_STEP_COUNT, String.valueOf(goal.getSteps()));
             navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
         });
 

@@ -26,9 +26,6 @@ public class AddEditGoalFragment extends Fragment {
 
 
     static final String GOAL_ID = "GOAL_ID";
-    static final String GOAL_NAME = "GOAL_NAME";
-    static final String GOAL_ACTIVE = "GOAL_ACTIVE";
-    static final String GOAL_STEP_COUNT = "GOAL_STEP_COUNT";
 
     private AddEditGoalViewModel mViewModel;
     private NavController navController;
@@ -37,6 +34,7 @@ public class AddEditGoalFragment extends Fragment {
     private TextView etStepCount;
     private ImageView ivRemoveGoal;
     private Bundle bundle;
+    private Goal goalToEdit;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,10 +75,6 @@ public class AddEditGoalFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        if (bundle != null) {
-            etGoalName.setText(bundle.getString(GOAL_NAME));
-            etStepCount.setText(bundle.getString(GOAL_STEP_COUNT));
-        }
     }
 
 
@@ -88,16 +82,21 @@ public class AddEditGoalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(AddEditGoalViewModel.class);
+        if (bundle != null) {
+            goalToEdit = mViewModel.getGoalToEdit(bundle.getInt(GOAL_ID));
+            etGoalName.setText(goalToEdit.getName());
+            etStepCount.setText(String.valueOf(goalToEdit.getSteps()));
+        }
     }
 
     private void saveGoal() {
 
         String goalName = etGoalName.getText().toString();
         int stepCount = Integer.parseInt(etStepCount.getText().toString());
-        if (bundle != null) {
-            int id = bundle.getInt(GOAL_ID);
-            boolean active = bundle.getBoolean(GOAL_ACTIVE);
-            mViewModel.updateGoal(new Goal(id, goalName, stepCount, active));
+        if (goalToEdit != null) {
+            goalToEdit.setName(goalName);
+            goalToEdit.setSteps(stepCount);
+            mViewModel.updateGoal(goalToEdit);
         } else {
             mViewModel.addGoal(new Goal(goalName, stepCount));
         }

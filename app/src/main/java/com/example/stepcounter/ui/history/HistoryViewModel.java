@@ -25,4 +25,12 @@ public class HistoryViewModel extends AndroidViewModel {
     public LiveData<List<HistoryEntity>> getHistory() {
         return history;
     }
+
+    public void deleteHistory(HistoryEntity history) {
+        repository.deleteHistory(history);
+    }
+
+    public void addHistory(HistoryEntity historyEntity) {
+        repository.insertHistory(historyEntity);
+    }
 }

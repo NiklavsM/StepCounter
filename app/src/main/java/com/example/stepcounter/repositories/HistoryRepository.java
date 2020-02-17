@@ -43,6 +43,10 @@ public class HistoryRepository {
         new DeleteHistoryAsyncTask(historyDao).execute(history);
     }
 
+    public void deleteHistoryById(Integer id) {
+        new DeleteHistoryByIdAsyncTask(historyDao).execute(id);
+    }
+
     public void deleteAllHistory() {
         new DeleteAllHistoryAsyncTask(historyDao).execute();
     }
@@ -59,6 +63,15 @@ public class HistoryRepository {
     public HistoryEntity getTodayStatic() {
         try {
             return new GetTodayHistoryStaticAsyncTask(historyDao).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public HistoryEntity getHistoryById(int id) {
+        try {
+            return new GetHistoryByIdStaticAsyncTask(historyDao).execute(id).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -114,6 +127,21 @@ public class HistoryRepository {
         }
     }
 
+    private static class DeleteHistoryByIdAsyncTask extends AsyncTask<Integer, Void, Void> {
+
+        private HistoryDao historyDao;
+
+        private DeleteHistoryByIdAsyncTask(HistoryDao historyDao) {
+            this.historyDao = historyDao;
+        }
+
+        @Override
+        protected Void doInBackground(Integer... integers) {
+            historyDao.deleteHistoryById(integers[0]);
+            return null;
+        }
+    }
+
     private static class DeleteAllHistoryAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private HistoryDao historyDao;
@@ -154,6 +182,20 @@ public class HistoryRepository {
         @Override
         protected HistoryEntity doInBackground(Void... voids) {
             return historyDao.getTodayStatic(Utils.getTodayNoTime());
+        }
+    }
+
+    private static class GetHistoryByIdStaticAsyncTask extends AsyncTask<Integer, Void, HistoryEntity> {
+
+        private HistoryDao historyDao;
+
+        private GetHistoryByIdStaticAsyncTask(HistoryDao historyDao) {
+            this.historyDao = historyDao;
+        }
+
+        @Override
+        protected HistoryEntity doInBackground(Integer... integers) {
+            return historyDao.getDayById(integers[0]);
         }
     }
 }

@@ -23,11 +23,11 @@ public class HistoryEntity {
     }
 
     @Ignore
-    public HistoryEntity(float day, int stepsTaken, String goalName, int goalSteps) {
+    public HistoryEntity(float day, int stepsTaken, Goal goal) {
         this.day = day;
         this.stepsTaken = stepsTaken;
-        this.goalName = goalName;
-        this.goalSteps = goalSteps;
+        this.goalName = goal.getName();
+        this.goalSteps = goal.getSteps();
     }
 
     public int getId() {

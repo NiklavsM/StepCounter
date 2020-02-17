@@ -24,6 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+import static com.example.stepcounter.utils.GoalSelector.showSelectGoalDialog;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
@@ -63,16 +65,8 @@ public class HomeFragment extends Fragment {
         });
 
         ivChangeActiveGoal.setOnClickListener(v -> {
-
                     List<Goal> goals = homeViewModel.getGoals();
-
-                    String[] goalNames = goals.stream().map(Goal::getName).toArray(String[]::new);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Select goal");
-                    builder.setIcon(R.drawable.ic_star_24px);
-                    builder.setSingleChoiceItems(goalNames, -1, (dialog, which) -> {
-                    });
-                    builder.setPositiveButton("Set", (dialog, which) -> {
+                    showSelectGoalDialog(goals, getActivity(), (dialog, which) -> {
                         ListView lw = ((AlertDialog) dialog).getListView();
                         int index = lw.getCheckedItemPosition();
                         if (index != -1) {
@@ -80,8 +74,6 @@ public class HomeFragment extends Fragment {
                             homeViewModel.setNewActiveGoal(goals.get(index));
                         }
                     });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
                 }
         );
 

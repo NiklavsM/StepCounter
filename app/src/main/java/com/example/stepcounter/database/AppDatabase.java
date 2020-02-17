@@ -52,14 +52,19 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            goalDao.insertGoal(new Goal("CDC's minimum", 2000, true));
-            goalDao.insertGoal(new Goal("4 digits reached", 1000));
-            goalDao.insertGoal(new Goal("Iron man", 20000));
-            goalDao.insertGoal(new Goal("10 000 steps", 10000));
+            Goal goal1 = new Goal("CDC's minimum", 2000, true);
+            Goal goal2 = new Goal("4 digits reached", 1000);
+            Goal goal3 = new Goal("Iron man", 20000);
+            Goal goal4 = new Goal("10 000 steps", 10000);
 
-            historyDao.setHistory(new HistoryEntity(1580186339584f, 5435, "Iron man", 20000));
-            historyDao.setHistory(new HistoryEntity(1570186339584f, 2345, "CDC's minimum", 2000));
-            historyDao.setHistory(new HistoryEntity(1560186339584f, 950, "4 digits reached", 1000));
+            goalDao.insertGoal(goal1);
+            goalDao.insertGoal(goal2);
+            goalDao.insertGoal(goal3);
+            goalDao.insertGoal(goal4);
+
+            historyDao.setHistory(new HistoryEntity(1580186339584f, 5435, goal1));
+            historyDao.setHistory(new HistoryEntity(1570186339584f, 2345, goal2));
+            historyDao.setHistory(new HistoryEntity(1560186339584f, 950, goal1));
             return null;
         }
     }

@@ -25,10 +25,7 @@ public class Utils {
 
     public static float getTodayNoTime() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        removeTime(calendar);
         return calendar.getTimeInMillis();
     }
 
@@ -38,5 +35,12 @@ public class Utils {
 
         DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         return formatter.format(calendar.getTimeInMillis());
+    }
+
+    public static void removeTime(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
     }
 }

@@ -55,8 +55,13 @@ public class GoalsRepository {
         return null;
     }
 
-    public void deleteAllGoals() {
-        new DeleteAllGoalsAsyncTask(goalDao).execute();
+    public Goal getGoalById(int id) {
+        try {
+            return new GetGoalByIdAsyncTask(goalDao).execute(id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public LiveData<List<Goal>> getAllGoals() {
@@ -67,6 +72,15 @@ public class GoalsRepository {
     public List<Goal> getAllGoalsStatic() {
         try {
             return new GetAllGoalsStaticAsyncTask(goalDao).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Goal getGoalByName(String name) {
+        try {
+            return new GetGoalByNameAsyncTask(goalDao).execute(name).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -160,6 +174,34 @@ public class GoalsRepository {
         @Override
         protected Goal doInBackground(Void... voids) {
             return goalDao.getActiveGoal();
+        }
+    }
+
+    private static class GetGoalByIdAsyncTask extends AsyncTask<Integer, Void, Goal> {
+
+        private GoalDao goalDao;
+
+        private GetGoalByIdAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected Goal doInBackground(Integer... integers) {
+            return goalDao.getGoalById(integers[0]);
+        }
+    }
+
+    private static class GetGoalByNameAsyncTask extends AsyncTask<String, Void, Goal> {
+
+        private GoalDao goalDao;
+
+        private GetGoalByNameAsyncTask(GoalDao goalDao) {
+            this.goalDao = goalDao;
+        }
+
+        @Override
+        protected Goal doInBackground(String... strings) {
+            return goalDao.getGoalByName(strings[0]);
         }
     }
 

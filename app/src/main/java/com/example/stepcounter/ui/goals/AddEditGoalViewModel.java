@@ -15,6 +15,7 @@ public class AddEditGoalViewModel extends AndroidViewModel {
 
     private GoalsRepository repository;
     private LiveData<List<Goal>> allGoals;
+    private Goal goalToEdit;
 
     public AddEditGoalViewModel(@NonNull Application application) {
         super(application);
@@ -36,5 +37,9 @@ public class AddEditGoalViewModel extends AndroidViewModel {
 
     public LiveData<List<Goal>> getAllGoals() {
         return allGoals;
+    }
+
+    public Goal getGoalToEdit(int id) {
+        return repository.getGoalById(id);
     }
 }

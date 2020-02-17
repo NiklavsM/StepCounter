@@ -27,10 +27,15 @@ public interface HistoryDao {
     @Query("DELETE FROM history")
     void deleteAllHistory();
 
+    @Query("DELETE FROM history WHERE id = :id")
+    void deleteHistoryById(int id);
+
     @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
     LiveData<HistoryEntity> getToday(float day);
 
     @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
     HistoryEntity getTodayStatic(float day);
 
+    @Query("SELECT * FROM history WHERE id = :id")
+    HistoryEntity getDayById(int id);
 }

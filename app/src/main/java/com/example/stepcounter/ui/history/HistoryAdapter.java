@@ -40,7 +40,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         holder.tvStepsTaken.setText(currentHistory.getStepsTaken() + "/" + currentHistory.getGoalSteps());
         if (percentage >= 100) {
             holder.imHistoryIcon.setImageResource(R.drawable.ic_award_star);
+        } else {
+            holder.imHistoryIcon.setImageResource(R.drawable.ic_award_star_empty);
         }
+    }
+
+    public HistoryEntity getHistoryAtIndex(int index) {
+        return history.get(index);
     }
 
     @Override
