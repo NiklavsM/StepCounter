@@ -48,14 +48,15 @@ public class RecordStepsService extends Service implements SensorEventListener {
 
         int eventSteps = (int) event.values[0];
         int toAdd = (eventSteps - previousSteps);
-        previousSteps = eventSteps;
+
         if (previousSteps == -1) {
             previousSteps = eventSteps;
+        } else {
+            previousSteps = eventSteps;
+            HistoryEntity today = historyRepository.getHistoryEntryStatic(Utils.getTodayNoTime());
+            today.setStepsTaken(today.getStepsTaken() + toAdd);
+            historyRepository.updateHistory(today);
         }
-
-        HistoryEntity today = historyRepository.getHistoryEntryStatic(Utils.getTodayNoTime());
-        today.setStepsTaken(today.getStepsTaken() + toAdd);
-        historyRepository.updateHistory(today);
         Log.v("Step triggered ", "step triggered " + toAdd);
     }
 
