@@ -23,44 +23,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
+    SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startService(new Intent(this, AutoHistoryService.class));
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Intent autoRecordService = new Intent(this, RecordStepsService.class);
-        if (sharedPreferences.getBoolean(getString(R.string.auto_recording), false)) {
-            Log.v("Started1", "started1");
-            startService(autoRecordService);
-        }
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (!sharedPreferences.getBoolean(getString(R.string.auto_recording), false)) {
-                stopService(autoRecordService);
-            } else {
-                startService(autoRecordService);
-            }
-        });
+        startServices();
 
         setContentView(R.layout.activity_main);
-        final BottomNavigationView navView = findViewById(R.id.nav_view);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_goals, R.id.navigation_history)
-                .build();
-        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.AddEditGoalFragment) {
-                navView.setVisibility(View.GONE);
-            } else {
-                navView.setVisibility(View.VISIBLE);
-            }
-        });
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+        setBottomNavigation();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -84,13 +58,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void startServices(){
+        startService(new Intent(this, AutoHistoryService.class));
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Intent autoRecordService = new Intent(this, RecordStepsService.class);
+        if (sharedPreferences.getBoolean(getString(R.string.auto_recording), false)) {
+            startService(autoRecordService);
+        }
+        listener = (preferences, key) -> {
+            if (!preferences.getBoolean(getString(R.string.auto_recording), false)) {
+                stopService(autoRecordService);
+                Log.v("Record stop", "Record stop");
+            } else {
+                startService(autoRecordService);
+                Log.v("Record start", "Record start");
+            }
+        };
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    private void setBottomNavigation(){
+        final BottomNavigationView navView = findViewById(R.id.nav_view);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_goals, R.id.navigation_history)
+                .build();
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (destination.getId() == R.id.AddEditGoalFragment) {
+                navView.setVisibility(View.GONE);
+            } else {
+                navView.setVisibility(View.VISIBLE);
+            }
+        });
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
     }
 
 }

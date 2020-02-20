@@ -15,56 +15,52 @@ import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.HistoryRepository;
 import com.example.stepcounter.utils.Utils;
 
-public class RecordStepsService extends Service {
+public class RecordStepsService extends Service implements SensorEventListener {
 
-    double magnitudePrevious = 0;
+    int previousSteps = -1;
     SensorManager sensorManager;
-    SensorEventListener stepDetector;
+    HistoryRepository historyRepository;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        HistoryRepository historyRepository = HistoryRepository.getInstance(getApplication());
+
+        historyRepository = HistoryRepository.getInstance(getApplication());
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        stepDetector = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                if (sensor != null) {
-                    float x_accel = event.values[0];
-                    float y_accel = event.values[1];
-                    float z_accel = event.values[2];
-
-                    double magnitude = Math.sqrt(x_accel * x_accel + y_accel * y_accel + z_accel * z_accel);
-                    double magnitudeDelta = magnitude - magnitudePrevious;
-                    magnitudePrevious = magnitude;
-                    if (magnitudeDelta > 7) {
-                        HistoryEntity today = historyRepository.getHistoryEntryStatic(Utils.getTodayNoTime());
-                        today.setStepsTaken(today.getStepsTaken() + 1);
-                        historyRepository.updateHistory(today);
-                        Log.v("Step triggered ", "step triggered");
-                    }
-                }
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-        sensorManager.registerListener(stepDetector, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-
-    @Override
-    public void onDestroy() {
-        sensorManager.unregisterListener(stepDetector);
-        super.onDestroy();
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        sensorManager.unregisterListener(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+        int eventSteps = (int) event.values[0];
+        int toAdd = (eventSteps - previousSteps);
+        previousSteps = eventSteps;
+        if (previousSteps == -1) {
+            previousSteps = eventSteps;
+        }
+
+        HistoryEntity today = historyRepository.getHistoryEntryStatic(Utils.getTodayNoTime());
+        today.setStepsTaken(today.getStepsTaken() + toAdd);
+        historyRepository.updateHistory(today);
+        Log.v("Step triggered ", "step triggered " + toAdd);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 }
