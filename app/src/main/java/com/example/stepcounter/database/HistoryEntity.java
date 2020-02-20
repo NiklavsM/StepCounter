@@ -9,12 +9,12 @@ public class HistoryEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private float day;
+    private long day;
     private int stepsTaken;
     private String goalName;
     private int goalSteps;
 
-    public HistoryEntity(int id, float day, int stepsTaken, String goalName, int goalSteps) {
+    public HistoryEntity(int id, long day, int stepsTaken, String goalName, int goalSteps) {
         this.id = id;
         this.day = day;
         this.stepsTaken = stepsTaken;
@@ -23,7 +23,7 @@ public class HistoryEntity {
     }
 
     @Ignore
-    public HistoryEntity(float day, int stepsTaken, Goal goal) {
+    public HistoryEntity(long day, int stepsTaken, Goal goal) {
         this.day = day;
         this.stepsTaken = stepsTaken;
         this.goalName = goal.getName();
@@ -38,11 +38,11 @@ public class HistoryEntity {
         this.id = id;
     }
 
-    public float getDay() {
+    public long getDay() {
         return day;
     }
 
-    public void setDay(float day) {
+    public void setDay(long day) {
         this.day = day;
     }
 

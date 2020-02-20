@@ -2,6 +2,7 @@ package com.example.stepcounter.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -23,7 +24,7 @@ public class Utils {
         }
     }
 
-    public static float getTodayNoTime() {
+    public static long getTodayNoTime() {
         Calendar calendar = Calendar.getInstance();
         removeTime(calendar);
         return calendar.getTimeInMillis();

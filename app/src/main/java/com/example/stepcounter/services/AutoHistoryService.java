@@ -21,7 +21,7 @@ public class AutoHistoryService extends LifecycleService {
         HistoryRepository historyRepository = HistoryRepository.getInstance(app);
         GoalsRepository goalsRepository = GoalsRepository.getInstance(app);
 
-        LiveData<HistoryEntity> today = historyRepository.getToday();
+        LiveData<HistoryEntity> today = historyRepository.getHistoryEntry(Utils.getTodayNoTime());
         today.observe(this, v -> {
             if (v == null) {
                 Goal activeGoal = goalsRepository.getActiveGoal();

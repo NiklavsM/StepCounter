@@ -13,10 +13,10 @@ import androidx.annotation.Nullable;
 
 import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.HistoryRepository;
+import com.example.stepcounter.utils.Utils;
 
 public class RecordStepsService extends Service {
 
-    HistoryRepository historyRepository = HistoryRepository.getInstance(getApplication());
     double magnitudePrevious = 0;
     SensorManager sensorManager;
     SensorEventListener stepDetector;
@@ -24,6 +24,7 @@ public class RecordStepsService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        HistoryRepository historyRepository = HistoryRepository.getInstance(getApplication());
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -39,7 +40,7 @@ public class RecordStepsService extends Service {
                     double magnitudeDelta = magnitude - magnitudePrevious;
                     magnitudePrevious = magnitude;
                     if (magnitudeDelta > 7) {
-                        HistoryEntity today = historyRepository.getTodayStatic();
+                        HistoryEntity today = historyRepository.getHistoryEntryStatic(Utils.getTodayNoTime());
                         today.setStepsTaken(today.getStepsTaken() + 1);
                         historyRepository.updateHistory(today);
                         Log.v("Step triggered ", "step triggered");

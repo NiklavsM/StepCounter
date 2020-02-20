@@ -5,6 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/iv_delete_history"
+        android:layout_width="39dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="4dp"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_date_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2/18/2020" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="283dp"
@@ -46,11 +68,11 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@id/tv_active_goal"
-            tools:text="10000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_active_goal_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_active_goal" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_active_goal"
+            tools:text="10000" />
 
         <TextView
             android:id="@+id/tv_active_goal_steps_label"
@@ -69,8 +91,8 @@
             android:layout_height="30dp"
             android:layout_below="@+id/tv_active_goal_label"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="20dp"
             android:layout_toEndOf="@id/tv_active_goal_steps_label"
             android:src="@drawable/ic_edit_circle"
             app:layout_constraintStart_toEndOf="@+id/tv_active_goal"
@@ -167,6 +189,7 @@
         android:layout_height="250dp"
         android:progress="90"
         android:progressDrawable="@drawable/circle"
+        android:background="@drawable/circle_background"
         android:rotation="-90"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"

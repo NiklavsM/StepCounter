@@ -31,11 +31,14 @@ public interface HistoryDao {
     void deleteHistoryById(int id);
 
     @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
-    LiveData<HistoryEntity> getToday(float day);
+    LiveData<HistoryEntity> getHistoryEntry(long day);
 
     @Query("SELECT * FROM history WHERE day = :day LIMIT 1")
-    HistoryEntity getTodayStatic(float day);
+    HistoryEntity getHistoryEntryStatic(long day);
 
     @Query("SELECT * FROM history WHERE id = :id")
-    HistoryEntity getDayById(int id);
+    HistoryEntity getDayByIdStatic(int id);
+
+    @Query("SELECT * FROM history WHERE id = :id")
+    LiveData<HistoryEntity> getDayById(int id);
 }

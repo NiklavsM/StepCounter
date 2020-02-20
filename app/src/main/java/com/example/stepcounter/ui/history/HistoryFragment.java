@@ -1,5 +1,6 @@
 package com.example.stepcounter.ui.history;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,10 @@ import com.example.stepcounter.database.HistoryEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import static com.example.stepcounter.ui.history.AddEditHistoryFragment.HISTORY_ID;
+import java.util.Calendar;
+
+import static com.example.stepcounter.ui.home.HomeFragment.HISTORY_ID;
+import static com.example.stepcounter.utils.Utils.removeTime;
 
 public class HistoryFragment extends Fragment {
 
@@ -44,7 +48,7 @@ public class HistoryFragment extends Fragment {
         historyAdapter.setOnItemClickListener(history -> {
             Bundle bundle = new Bundle();
             bundle.putInt(HISTORY_ID, history.getId());
-            navController.navigate(R.id.action_navigation_history_to_addEditHistoryFragment, bundle);
+            navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
         });
         recyclerView.setAdapter(historyAdapter);
 
@@ -73,8 +77,7 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        btnAddHistory = view.findViewById(R.id.btn_add_history);
-        btnAddHistory.setOnClickListener(v -> navController.navigate(R.id.action_navigation_history_to_addEditHistoryFragment));
+        btnAddHistory.setOnClickListener(v -> addHistory());
     }
 
     private void showUndoSnackbar(final HistoryEntity historyEntity) {
@@ -83,4 +86,32 @@ public class HistoryFragment extends Fragment {
         snackbar.setAction("Undo", v -> historyViewModel.addHistory(historyEntity));
         snackbar.show();
     }
+
+    private void addHistory() {
+        Calendar today = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
+            Calendar dateSelected = Calendar.getInstance();
+            dateSelected.set(Calendar.YEAR, year);
+            dateSelected.set(Calendar.MONTH, month);
+            dateSelected.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            removeTime(dateSelected);
+            long timeSelected = dateSelected.getTimeInMillis();
+            HistoryEntity history = historyViewModel.getHistoryByDate(timeSelected);
+            Bundle bundle = new Bundle();
+            if (history == null) {
+                HistoryEntity newHistoryEntry = new HistoryEntity(timeSelected, 0, historyViewModel.getActiveGoal());
+                historyViewModel.addHistory(newHistoryEntry);
+                bundle.putInt(HISTORY_ID, historyViewModel.getHistoryByDate(timeSelected).getId());
+            } else {
+                bundle.putInt(HISTORY_ID, history.getId());
+            }
+            navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
+        },
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
 }

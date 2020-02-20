@@ -62,9 +62,9 @@ public abstract class AppDatabase extends RoomDatabase {
             goalDao.insertGoal(goal3);
             goalDao.insertGoal(goal4);
 
-            historyDao.setHistory(new HistoryEntity(1580186339584f, 5435, goal1));
-            historyDao.setHistory(new HistoryEntity(1570186339584f, 2345, goal2));
-            historyDao.setHistory(new HistoryEntity(1560186339584f, 950, goal1));
+            historyDao.setHistory(new HistoryEntity(1580186339584l, 5435, goal1));
+            historyDao.setHistory(new HistoryEntity(1570186339584l, 2345, goal2));
+            historyDao.setHistory(new HistoryEntity(1560186339584l, 950, goal1));
             return null;
         }
     }

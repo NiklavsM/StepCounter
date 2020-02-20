@@ -51,25 +51,34 @@ public class HistoryRepository {
         new DeleteAllHistoryAsyncTask(historyDao).execute();
     }
 
-    public LiveData<HistoryEntity> getToday() {
+    public LiveData<HistoryEntity> getHistoryEntry(long date) {
         try {
-            return new GetTodayHistoryAsyncTask(historyDao).execute().get();
+            return new GetHistoryEntryAsyncTask(historyDao).execute(date).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public HistoryEntity getTodayStatic() {
+    public HistoryEntity getHistoryEntryStatic(long date) {
         try {
-            return new GetTodayHistoryStaticAsyncTask(historyDao).execute().get();
+            return new GetHistoryEntryStaticAsyncTask(historyDao).execute(date).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public HistoryEntity getHistoryById(int id) {
+    public LiveData<HistoryEntity> getHistoryById(int id) {
+        try {
+            return new GetHistoryByIdAsyncTask(historyDao).execute(id).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public HistoryEntity getHistoryByIdStatic(int id) {
         try {
             return new GetHistoryByIdStaticAsyncTask(historyDao).execute(id).get();
         } catch (ExecutionException | InterruptedException e) {
@@ -157,31 +166,31 @@ public class HistoryRepository {
         }
     }
 
-    private static class GetTodayHistoryAsyncTask extends AsyncTask<Void, Void, LiveData<HistoryEntity>> {
+    private static class GetHistoryEntryAsyncTask extends AsyncTask<Long, Void, LiveData<HistoryEntity>> {
 
         private HistoryDao historyDao;
 
-        private GetTodayHistoryAsyncTask(HistoryDao historyDao) {
+        private GetHistoryEntryAsyncTask(HistoryDao historyDao) {
             this.historyDao = historyDao;
         }
 
         @Override
-        protected LiveData<HistoryEntity> doInBackground(Void... voids) {
-            return historyDao.getToday(Utils.getTodayNoTime());
+        protected LiveData<HistoryEntity> doInBackground(Long... longs) {
+            return historyDao.getHistoryEntry(longs[0]);
         }
     }
 
-    private static class GetTodayHistoryStaticAsyncTask extends AsyncTask<Void, Void, HistoryEntity> {
+    private static class GetHistoryEntryStaticAsyncTask extends AsyncTask<Long, Void, HistoryEntity> {
 
         private HistoryDao historyDao;
 
-        private GetTodayHistoryStaticAsyncTask(HistoryDao historyDao) {
+        private GetHistoryEntryStaticAsyncTask(HistoryDao historyDao) {
             this.historyDao = historyDao;
         }
 
         @Override
-        protected HistoryEntity doInBackground(Void... voids) {
-            return historyDao.getTodayStatic(Utils.getTodayNoTime());
+        protected HistoryEntity doInBackground(Long... longs) {
+            return historyDao.getHistoryEntryStatic(longs[0]);
         }
     }
 
@@ -195,6 +204,20 @@ public class HistoryRepository {
 
         @Override
         protected HistoryEntity doInBackground(Integer... integers) {
+            return historyDao.getDayByIdStatic(integers[0]);
+        }
+    }
+
+    private static class GetHistoryByIdAsyncTask extends AsyncTask<Integer, Void, LiveData<HistoryEntity>> {
+
+        private HistoryDao historyDao;
+
+        private GetHistoryByIdAsyncTask(HistoryDao historyDao) {
+            this.historyDao = historyDao;
+        }
+
+        @Override
+        protected LiveData<HistoryEntity> doInBackground(Integer... integers) {
             return historyDao.getDayById(integers[0]);
         }
     }
