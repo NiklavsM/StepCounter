@@ -28,6 +28,9 @@
         <service
             android:name=".services.RecordStepsService"
             android:exported="false" />
+        <service
+            android:name=".services.NotificationService"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,12 +46,12 @@ public class GoalsFragment extends Fragment {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         goalAdapter.setOnItemClickListener(goal -> {
-            if (!sharedPreferences.getBoolean("goal_switching", true)) {
-                Snackbar.make(root, "In order to edit goals enable goal editing in the settings", Snackbar.LENGTH_LONG).show();
+            if (!sharedPreferences.getBoolean(getContext().getString(R.string.goal_editing_enabled), true)) {
+                Toast.makeText(getContext(), "Goal editing disabled", Toast.LENGTH_LONG).show();
                 return;
             }
             if (goal.isActive()) {
-                Snackbar.make(root, "Cannot edit an active goal", Snackbar.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Cannot edit an active goal", Toast.LENGTH_LONG).show();
                 return;
             }
             Bundle bundle = new Bundle();
@@ -72,7 +73,7 @@ public class GoalsFragment extends Fragment {
                 if (!goalToRemove.isActive()) {
                     goalsViewModel.removeGoal(goalToRemove);
                     showUndoSnackbar(goalToRemove);
-                }else{
+                } else {
                     goalAdapter.notifyDataSetChanged();
                     Snackbar.make(root, "Cannot delete an active goal", Snackbar.LENGTH_LONG).show();
                 }

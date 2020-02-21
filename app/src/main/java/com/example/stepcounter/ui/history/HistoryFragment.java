@@ -1,10 +1,12 @@
 package com.example.stepcounter.ui.history;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,11 +34,14 @@ public class HistoryFragment extends Fragment {
     private HistoryViewModel historyViewModel;
     private FloatingActionButton btnAddHistory;
     private NavController navController;
+    private ItemTouchHelper itemTouchHelper;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         historyViewModel = new ViewModelProvider(requireActivity()).get(HistoryViewModel.class);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         View root = inflater.inflate(R.layout.fragment_history, container, false);
 
         RecyclerView recyclerView = root.findViewById(R.id.rv_history);
@@ -43,32 +49,41 @@ public class HistoryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         btnAddHistory = root.findViewById(R.id.btn_add_history);
-
         final HistoryAdapter historyAdapter = new HistoryAdapter();
         historyAdapter.setOnItemClickListener(history -> {
-            Bundle bundle = new Bundle();
-            bundle.putInt(HISTORY_ID, history.getId());
-            navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
+            if (canEditHistory()) {
+                openHistory(history.getId());
+            } else {
+                Toast.makeText(getContext(), "History edit mode is disabled", Toast.LENGTH_LONG).show();
+            }
         });
+        if (canEditHistory()) {
+            btnAddHistory.setVisibility(View.VISIBLE);
+            historyAdapter.setOnItemClickListener(history -> {
+                Bundle bundle = new Bundle();
+                bundle.putInt(HISTORY_ID, history.getId());
+                navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
+            });
+            itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
+                    HistoryEntity historyToRemove = historyAdapter.getHistoryAtIndex(viewHolder.getAdapterPosition());
+                    historyViewModel.deleteHistory(historyToRemove);
+                    showUndoSnackbar(historyToRemove);
+                }
+            });
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        }
+
         recyclerView.setAdapter(historyAdapter);
 
         historyViewModel.getHistory().observe(getViewLifecycleOwner(), historyAdapter::setHistory);
-
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                HistoryEntity historyToRemove = historyAdapter.getHistoryAtIndex(viewHolder.getAdapterPosition());
-                historyViewModel.deleteHistory(historyToRemove);
-                showUndoSnackbar(historyToRemove);
-            }
-
-
-        }).attachToRecyclerView(recyclerView);
 
         return root;
     }
@@ -112,6 +127,16 @@ public class HistoryFragment extends Fragment {
                 today.get(Calendar.DAY_OF_MONTH)
         );
         datePickerDialog.show();
+    }
+
+    private boolean canEditHistory() {
+        return sharedPreferences.getBoolean(getContext().getString(R.string.history_editing_enabled), true);
+    }
+
+    private void openHistory(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(HISTORY_ID, id);
+        navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
     }
 
 }

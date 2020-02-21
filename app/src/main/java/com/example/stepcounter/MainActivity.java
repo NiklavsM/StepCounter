@@ -18,20 +18,20 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
 import com.example.stepcounter.services.AutoHistoryService;
+import com.example.stepcounter.services.NotificationService;
 import com.example.stepcounter.services.RecordStepsService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    SharedPreferences sharedPreferences;
-    SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         startServices();
-
         setContentView(R.layout.activity_main);
-
         setBottomNavigation();
 
     }
@@ -46,14 +46,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        switch (item.getItemId()) {
-            case R.id.settings_navvan:
-                navController.navigate(R.id.navigation_settings);
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.settings_navvan) {
+            navController.navigate(R.id.navigation_settings);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -64,26 +61,40 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void startServices(){
-        startService(new Intent(this, AutoHistoryService.class));
+    private void startServices() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        startService(new Intent(this, AutoHistoryService.class));
+
         Intent autoRecordService = new Intent(this, RecordStepsService.class);
-        if (sharedPreferences.getBoolean(getString(R.string.auto_recording), false)) {
+        Intent notificationService = new Intent(this, NotificationService.class);
+
+        if (autoRecordEnabled()) {
             startService(autoRecordService);
         }
+        if (notificationsEnabled()) {
+            startService(notificationService);
+        }
         listener = (preferences, key) -> {
-            if (!preferences.getBoolean(getString(R.string.auto_recording), false)) {
-                stopService(autoRecordService);
-                Log.v("Record stop", "Record stop");
-            } else {
-                startService(autoRecordService);
-                Log.v("Record start", "Record start");
+            if (key.equals(getString(R.string.auto_recording))) {
+                if (autoRecordEnabled()) {
+                    startService(autoRecordService);
+                } else {
+                    stopService(autoRecordService);
+                }
+            }
+            if (key.equals(getString(R.string.notifications_enabled))) {
+                if (notificationsEnabled()) {
+                    startService(notificationService);
+                } else {
+                    stopService(notificationService);
+                }
             }
         };
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    private void setBottomNavigation(){
+    private void setBottomNavigation() {
         final BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_goals, R.id.navigation_history)
@@ -98,6 +109,18 @@ public class MainActivity extends AppCompatActivity {
         });
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    private boolean autoRecordEnabled() {
+        return !sharedPreferences.getBoolean(getString(R.string.auto_recording), false);
+    }
+
+    private boolean notificationsEnabled() {
+        return sharedPreferences.getBoolean(getString(R.string.notifications_enabled), true);
+    }
+
+    private void setUpPreferencesListener(){
+
     }
 
 }

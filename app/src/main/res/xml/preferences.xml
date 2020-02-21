@@ -3,16 +3,20 @@
 
     <SwitchPreferenceCompat
         app:defaultValue="true"
-        app:key="notifications"
+        app:key="@string/notifications_enabled"
         app:title="Enable notifications" />
     <SwitchPreferenceCompat
         app:defaultValue="true"
-        app:key="goal_switching"
+        app:key="@string/goal_editing_enabled"
         app:title="Enable goal editing" />
     <SwitchPreferenceCompat
         app:defaultValue="false"
         app:key="@string/auto_recording"
         app:title="Record steps automatically" />
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:key="@string/history_editing_enabled"
+        app:title="Allow to edit history" />
     <Preference
         android:icon="@drawable/ic_delete_outline_24px"
         android:key="@string/delete_all_history"
