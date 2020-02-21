@@ -14,30 +14,35 @@ import java.util.List;
 public class AddEditGoalViewModel extends AndroidViewModel {
 
     private GoalsRepository repository;
-    private LiveData<List<Goal>> allGoals;
-    private Goal goalToEdit;
 
     public AddEditGoalViewModel(@NonNull Application application) {
         super(application);
         repository = GoalsRepository.getInstance(application);
-        allGoals = repository.getAllGoals();
     }
 
-    public void addGoal(Goal goal) {
+    public boolean addGoal(Goal goal) {
+        Goal existingGoal = repository.getGoalByName(goal.getName());
+        if (existingGoal != null) {
+            return false;
+        }
         repository.insertGoal(goal);
+        return true;
+
     }
 
     public void deleteGoal(int id) {
         repository.deleteGoalWithId(id);
     }
 
-    public void updateGoal(Goal goal) {
-        repository.updateGoal(goal);
+    public boolean updateGoal(Goal goal) {
+        Goal existingGoal = repository.getGoalByName(goal.getName());
+        if (existingGoal == null || existingGoal.getId() == goal.getId()) {
+            repository.updateGoal(goal);
+            return true;
+        }
+        return false;
     }
 
-    public LiveData<List<Goal>> getAllGoals() {
-        return allGoals;
-    }
 
     public Goal getGoalToEdit(int id) {
         return repository.getGoalById(id);

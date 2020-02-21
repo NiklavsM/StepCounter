@@ -117,7 +117,7 @@
             android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="Add steps"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:maxLength="6"
             android:textAlignment="center" />
 

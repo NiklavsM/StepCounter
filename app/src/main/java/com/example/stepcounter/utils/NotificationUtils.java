@@ -21,44 +21,23 @@ public class NotificationUtils {
     private static final int GOAL_ACCOMPLISHED_ID = 1000;
     public static final String GOAL_ACCOMPLISHED_CHANNEL_ID = "goal_accomplished_channel";
 
-    private static final int GOAL_HALF_ACCOMPLISHED_ID = 1001;
-
-    public static void goalAccomplished(Context context) {
+    public static void goalNotification(Context context, String titleText) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(GOAL_ACCOMPLISHED_CHANNEL_ID,
                 context.getString(R.string.goal_accomplished_channel_name), NotificationManager.IMPORTANCE_HIGH);
         notificationManager.createNotificationChannel(channel);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,GOAL_ACCOMPLISHED_CHANNEL_ID)
-                .setColor(ContextCompat.getColor(context,R.color.colorPrimary)).setSmallIcon(R.drawable.ic_award_star)
+                .setColor(ContextCompat.getColor(context,R.color.colorPrimary)).setSmallIcon(R.drawable.ic_directions_walk_24px)
                 .setLargeIcon(largeIcon(context))
-                .setContentTitle(context.getString(R.string.goal_reached_notification_title))
-                .setContentText(context.getString(R.string.goal_reached_notification_body))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.goal_reached_notification_body)))
-                .setDefaults(Notification.DEFAULT_VIBRATE)
-                .setContentIntent(contentIntent(context))
-                .setAutoCancel(true);
-
-        notificationManager.notify(GOAL_ACCOMPLISHED_ID, builder.build());
-    }
-
-    public static void goalHalfAccomplished(Context context) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel(GOAL_ACCOMPLISHED_CHANNEL_ID,
-                context.getString(R.string.goal_accomplished_channel_name), NotificationManager.IMPORTANCE_HIGH);
-        notificationManager.createNotificationChannel(channel);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,GOAL_ACCOMPLISHED_CHANNEL_ID)
-                .setColor(ContextCompat.getColor(context,R.color.colorPrimary)).setSmallIcon(R.drawable.ic_award_star)
-                .setLargeIcon(largeIcon(context))
-                .setContentTitle(context.getString(R.string.goal_half_reached_notification_title))
+                .setContentTitle(titleText)
                 .setContentText(context.getString(R.string.goal_half_reached_notification_body))
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.goal_reached_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true);
 
-        notificationManager.notify(GOAL_HALF_ACCOMPLISHED_ID, builder.build());
+        notificationManager.notify(GOAL_ACCOMPLISHED_ID, builder.build());
     }
 
     private static PendingIntent contentIntent(Context context) {
@@ -68,6 +47,6 @@ public class NotificationUtils {
 
     private static Bitmap largeIcon(Context context) {
         Resources res = context.getResources();
-        return BitmapFactory.decodeResource(res, R.drawable.ic_award_star);
+        return BitmapFactory.decodeResource(res, R.drawable.ic_directions_walk_24px);
     }
 }

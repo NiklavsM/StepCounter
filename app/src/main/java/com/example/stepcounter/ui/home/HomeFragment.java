@@ -1,9 +1,7 @@
 package com.example.stepcounter.ui.home;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,7 +33,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.example.stepcounter.utils.GoalSelector.showSelectGoalDialog;
-import static com.example.stepcounter.utils.Utils.removeTime;
 
 public class HomeFragment extends Fragment {
 
@@ -83,9 +81,7 @@ public class HomeFragment extends Fragment {
         } else {
             int historyId = bundle.getInt(HISTORY_ID);
             homeViewModel.setHistory(historyId);
-            AppCompatActivity acivity = ((AppCompatActivity) getActivity());
-            acivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24px); // TODO not working
-            acivity.getSupportActionBar().setTitle("Edit history");
+            setupEditToolbar();
             ivRemoveHistory.setVisibility(View.VISIBLE);
             ivRemoveHistory.setOnClickListener(v -> removeHistory(historyId));
         }
@@ -147,6 +143,13 @@ public class HomeFragment extends Fragment {
             homeViewModel.addToHistory(Integer.parseInt(etAddSteps.getText().toString()));
             Toast.makeText(getContext(), stepsToAdd + " steps added", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void setupEditToolbar() {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24px);
+        actionBar.setTitle("Edit history");
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void updateFields(HistoryEntity history) {

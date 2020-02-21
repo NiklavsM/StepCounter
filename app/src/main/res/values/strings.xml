@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Step Counter</string>
+    <string name="app_name">Keep Fit</string>
     <string name="title_home">Home</string>
     <string name="title_goals">Goals</string>
     <string name="title_history">History</string>
@@ -7,9 +7,9 @@
     <string name="delete_all_history" translatable="false">delete_all_history</string>
     <string name="auto_recording" translatable="false">auto_recording</string>
     <string name="goal_accomplished_channel_name">goal_accomplished_channel_name</string>
-    <string name="goal_reached_notification_title">Goal reached</string>
+    <string name="goal_reached_notification_title">Goal reached: </string>
     <string name="goal_reached_notification_body">Well done</string>
 
-    <string name="goal_half_reached_notification_title">Half way there</string>
+    <string name="goal_half_reached_notification_title">Half way there to accomplish goal: </string>
     <string name="goal_half_reached_notification_body">Well done</string>
 </resources>

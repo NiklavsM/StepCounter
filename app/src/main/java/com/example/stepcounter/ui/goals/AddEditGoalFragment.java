@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,8 +40,8 @@ public class AddEditGoalFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_goal_fragment, container, false);
-        AppCompatActivity acivity = ((AppCompatActivity) getActivity());
-        acivity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24px);
+        AppCompatActivity activity = ((AppCompatActivity) getActivity());
+        activity.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_24px);
         bundle = getArguments();
 
         etGoalName = view.findViewById(R.id.goal_name_et);
@@ -49,7 +50,7 @@ public class AddEditGoalFragment extends Fragment {
         ivRemoveGoal = view.findViewById(R.id.iv_delete_goal);
         btnSaveGoal.setOnClickListener(v -> saveGoal());
         if (bundle != null) {
-            acivity.getSupportActionBar().setTitle("Edit goal");
+            activity.getSupportActionBar().setTitle("Edit goal");
             ivRemoveGoal.setVisibility(View.VISIBLE);
             ivRemoveGoal.setOnClickListener(v -> deleteGoal(bundle.getInt(GOAL_ID)));
         }
@@ -89,19 +90,46 @@ public class AddEditGoalFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onPause() {
+        hideKeyboard(requireActivity());
+        super.onPause();
+    }
+
     private void saveGoal() {
 
+        boolean successful;
         String goalName = etGoalName.getText().toString();
-        int stepCount = Integer.parseInt(etStepCount.getText().toString());
+        String steps = etStepCount.getText().toString();
+        hideKeyboard(requireActivity());
+
+        if (goalName.trim().equals("")) {
+            showToast("Please add name");
+            return;
+        }
+        if (steps.trim().equals("")) {
+            showToast("Please add steps");
+            return;
+        }
+
         if (goalToEdit != null) {
             goalToEdit.setName(goalName);
-            goalToEdit.setSteps(stepCount);
-            mViewModel.updateGoal(goalToEdit);
+            goalToEdit.setSteps(Integer.parseInt(steps));
+            successful = mViewModel.updateGoal(goalToEdit);
         } else {
-            mViewModel.addGoal(new Goal(goalName, stepCount));
+            successful = mViewModel.addGoal(new Goal(goalName, Integer.parseInt(steps)));
         }
-        navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
-        hideKeyboard(requireActivity());
+
+        if (successful) {
+            showToast("Goal added");
+            navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
+        } else {
+            showToast("Goal with this name already exists");
+        }
+    }
+
+    private void showToast(String text) {
+        Toast.makeText(getContext(), text, Toast.LENGTH_LONG).show();
     }
 
 
