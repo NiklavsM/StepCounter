@@ -33,7 +33,6 @@ public class NotificationUtils {
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(titleText)
                 .setContentText(bodyText)
-//                .setStyle(new NotificationCompat.BigTextStyle().bigText(bodyText))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true);

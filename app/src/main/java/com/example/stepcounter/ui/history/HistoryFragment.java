@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +33,6 @@ public class HistoryFragment extends Fragment {
     private HistoryViewModel historyViewModel;
     private FloatingActionButton btnAddHistory;
     private NavController navController;
-    private ItemTouchHelper itemTouchHelper;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -64,21 +62,6 @@ public class HistoryFragment extends Fragment {
                 bundle.putInt(HISTORY_ID, history.getId());
                 navController.navigate(R.id.action_navigation_history_to_navigation_home, bundle);
             });
-            itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int direction) {
-                    HistoryEntity historyToRemove = historyAdapter.getHistoryAtIndex(viewHolder.getAdapterPosition());
-                    historyViewModel.deleteHistory(historyToRemove);
-                    showUndoSnackbar(historyToRemove);
-                }
-            });
-            itemTouchHelper.attachToRecyclerView(recyclerView);
-
         }
 
         recyclerView.setAdapter(historyAdapter);

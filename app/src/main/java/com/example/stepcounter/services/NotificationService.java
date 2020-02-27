@@ -45,11 +45,11 @@ public class NotificationService extends LifecycleService {
                 }
             }
             if (goalCompleted >= 1 && !goalReachedNotified) {
-                NotificationUtils.goalNotification(getApplicationContext(), currentGoalName + " goal completed", "Well done!");
+                NotificationUtils.goalNotification(getApplicationContext(), currentGoalName + " goal completed!", "Well done!");
                 goalReachedNotified = true;
             }
             if (goalCompleted >= 0.5 && goalCompleted < 1 && !goalHalfReachedNotified) {
-                NotificationUtils.goalNotification(getApplicationContext(), "Half way there!", (int) (100 * goalCompleted) + "% completed"
+                NotificationUtils.goalNotification(getApplicationContext(), "Half way there!", (int) (100 * goalCompleted) + "% completed!"
 //                        getApplicationContext().getString(R.string.goal_half_reached_notification_title) + currentGoalName
                 );
                 goalHalfReachedNotified = true;
