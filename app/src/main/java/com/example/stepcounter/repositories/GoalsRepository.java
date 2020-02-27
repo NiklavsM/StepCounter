@@ -147,22 +147,6 @@ public class GoalsRepository {
         }
     }
 
-
-    private static class DeleteAllGoalsAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private GoalDao goalDao;
-
-        private DeleteAllGoalsAsyncTask(GoalDao goalDao) {
-            this.goalDao = goalDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            goalDao.deleteAllGoals();
-            return null;
-        }
-    }
-
     private static class GetActiveGoalAsyncTask extends AsyncTask<Void, Void, Goal> {
 
         private GoalDao goalDao;

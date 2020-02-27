@@ -21,18 +21,19 @@ public class NotificationUtils {
     private static final int GOAL_ACCOMPLISHED_ID = 1000;
     public static final String GOAL_ACCOMPLISHED_CHANNEL_ID = "goal_accomplished_channel";
 
-    public static void goalNotification(Context context, String titleText) {
+    public static void goalNotification(Context context, String titleText, String bodyText) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(GOAL_ACCOMPLISHED_CHANNEL_ID,
                 context.getString(R.string.goal_accomplished_channel_name), NotificationManager.IMPORTANCE_HIGH);
         notificationManager.createNotificationChannel(channel);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,GOAL_ACCOMPLISHED_CHANNEL_ID)
-                .setColor(ContextCompat.getColor(context,R.color.colorPrimary)).setSmallIcon(R.drawable.ic_directions_walk_24px)
+                .setColor(ContextCompat.getColor(context,R.color.colorPrimary))
+                .setSmallIcon(R.drawable.ic_directions_walk_24px)
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(titleText)
-                .setContentText(context.getString(R.string.goal_half_reached_notification_body))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.goal_reached_notification_body)))
+                .setContentText(bodyText)
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText(bodyText))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 .setAutoCancel(true);

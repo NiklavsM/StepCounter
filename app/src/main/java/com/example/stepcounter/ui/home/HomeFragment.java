@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import androidx.navigation.Navigation;
 import com.example.stepcounter.R;
 import com.example.stepcounter.database.Goal;
 import com.example.stepcounter.database.HistoryEntity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
     private ImageView ivChangeActiveGoal;
     private TextView tvProgress;
     private ProgressBar progressBar;
-    private ImageView ivRemoveHistory;
+    private Button btnRemoveHistory;
     private TextView tvDateSelected;
 
     private NavController navController;
@@ -68,27 +70,13 @@ public class HomeFragment extends Fragment {
         ivChangeActiveGoal = root.findViewById(R.id.iv_change_active_goal);
         tvProgress = root.findViewById(R.id.tv_goal_percentage);
         progressBar = root.findViewById(R.id.progressBar);
-        ivRemoveHistory = root.findViewById(R.id.iv_delete_history);
+        btnRemoveHistory = root.findViewById(R.id.btn_delete_history);
         tvDateSelected = root.findViewById(R.id.tv_date_selected);
 
         btnAddSteps.setOnClickListener(v -> addStepsButtonClicked());
         ivChangeActiveGoal.setOnClickListener(v -> setActiveGoal());
 
-        bundle = getArguments();
-        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
-        if (bundle == null) {
-            homeViewModel.setHistory(-1);
-        } else {
-            int historyId = bundle.getInt(HISTORY_ID);
-            homeViewModel.setHistory(historyId);
-            setupEditToolbar();
-            ivRemoveHistory.setVisibility(View.VISIBLE);
-            ivRemoveHistory.setOnClickListener(v -> removeHistory(historyId));
-        }
-        homeViewModel.getDayToEdit().observe(getViewLifecycleOwner(), day -> {
-            if (day != null) updateFields(day);
-        });
-
+        setUpViewModel();
         return root;
     }
 
@@ -162,5 +150,24 @@ public class HomeFragment extends Fragment {
         int progressPercentage = (int) 100.0 * history.getStepsTaken() / history.getGoalSteps();
         tvProgress.setText(String.valueOf(progressPercentage));
         progressBar.setProgress(progressPercentage, true);
+    }
+
+    private void setUpViewModel() {
+        bundle = getArguments();
+        int historyId = -1;
+        homeViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
+        if (bundle != null) {
+            BottomNavigationView navBar = getActivity().findViewById(R.id.nav_view);
+            navBar.setVisibility(View.GONE);
+            historyId = bundle.getInt(HISTORY_ID);
+            btnRemoveHistory.setVisibility(View.VISIBLE);
+            int finalHistoryId = historyId;
+            btnRemoveHistory.setOnClickListener(v -> removeHistory(finalHistoryId));
+            setupEditToolbar();
+        }
+        homeViewModel.getDay(historyId).observe(getViewLifecycleOwner(), day -> {
+            if (day != null) updateFields(day);
+        });
+
     }
 }

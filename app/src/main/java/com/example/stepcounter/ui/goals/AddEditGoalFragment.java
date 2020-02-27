@@ -33,7 +33,7 @@ public class AddEditGoalFragment extends Fragment {
     private Button btnSaveGoal;
     private TextView etGoalName;
     private TextView etStepCount;
-    private ImageView ivRemoveGoal;
+    private Button btnRemoveGoal;
     private Bundle bundle;
     private Goal goalToEdit;
 
@@ -47,12 +47,12 @@ public class AddEditGoalFragment extends Fragment {
         etGoalName = view.findViewById(R.id.goal_name_et);
         etStepCount = view.findViewById(R.id.goal_steps_et);
         btnSaveGoal = view.findViewById(R.id.save_goal_btn);
-        ivRemoveGoal = view.findViewById(R.id.iv_delete_goal);
+        btnRemoveGoal = view.findViewById(R.id.btn_delete_goal);
         btnSaveGoal.setOnClickListener(v -> saveGoal());
         if (bundle != null) {
             activity.getSupportActionBar().setTitle("Edit goal");
-            ivRemoveGoal.setVisibility(View.VISIBLE);
-            ivRemoveGoal.setOnClickListener(v -> deleteGoal(bundle.getInt(GOAL_ID)));
+            btnRemoveGoal.setVisibility(View.VISIBLE);
+            btnRemoveGoal.setOnClickListener(v -> deleteGoal(bundle.getInt(GOAL_ID)));
         }
 
 
@@ -121,7 +121,7 @@ public class AddEditGoalFragment extends Fragment {
         }
 
         if (successful) {
-            showToast("Goal added");
+            showToast("Goal saved");
             navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
         } else {
             showToast("Goal with this name already exists");

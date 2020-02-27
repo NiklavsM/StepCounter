@@ -3,7 +3,6 @@ package com.example.stepcounter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -112,15 +111,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean autoRecordEnabled() {
-        return !sharedPreferences.getBoolean(getString(R.string.auto_recording), false);
+        return sharedPreferences.getBoolean(getString(R.string.auto_recording), false);
     }
 
     private boolean notificationsEnabled() {
         return sharedPreferences.getBoolean(getString(R.string.notifications_enabled), true);
     }
 
-    private void setUpPreferencesListener(){
-
-    }
 
 }

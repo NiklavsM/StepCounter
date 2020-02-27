@@ -31,6 +31,7 @@ public class GoalsFragment extends Fragment {
     private GoalsViewModel goalsViewModel;
     private NavController navController;
     private FloatingActionButton btnAddGoal;
+    private SharedPreferences sharedPreferences;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -44,9 +45,9 @@ public class GoalsFragment extends Fragment {
         final GoalAdapter goalAdapter = new GoalAdapter();
         recyclerView.setAdapter(goalAdapter);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         goalAdapter.setOnItemClickListener(goal -> {
-            if (!sharedPreferences.getBoolean(getContext().getString(R.string.goal_editing_enabled), true)) {
+            if (!canEditGoals()) {
                 Toast.makeText(getContext(), "Goal editing disabled", Toast.LENGTH_LONG).show();
                 return;
             }
@@ -54,9 +55,7 @@ public class GoalsFragment extends Fragment {
                 Toast.makeText(getContext(), "Cannot edit an active goal", Toast.LENGTH_LONG).show();
                 return;
             }
-            Bundle bundle = new Bundle();
-            bundle.putInt(GOAL_ID, goal.getId());
-            navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
+            goToEditGoal(goal.getId());
         });
 
         goalsViewModel.getGoals().observe(getActivity(), goalAdapter::setGoals);
@@ -98,6 +97,16 @@ public class GoalsFragment extends Fragment {
         navController = Navigation.findNavController(view);
         btnAddGoal = view.findViewById(R.id.add_goal_btn);
         btnAddGoal.setOnClickListener(v -> navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment));
+    }
+
+    private boolean canEditGoals() {
+        return sharedPreferences.getBoolean(getContext().getString(R.string.goal_editing_enabled), true);
+    }
+
+    private void goToEditGoal(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(GOAL_ID, id);
+        navController.navigate(R.id.action_navigation_goals_to_AddEditGoalFragment, bundle);
     }
 
 }

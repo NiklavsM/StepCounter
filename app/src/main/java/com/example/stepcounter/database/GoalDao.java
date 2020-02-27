@@ -27,9 +27,6 @@ public interface GoalDao {
     @Delete
     void deleteGoal(Goal goal);
 
-    @Query("DELETE FROM goal")
-    void deleteAllGoals();
-
     @Query("DELETE FROM goal WHERE id = :id")
     void deleteGoalWithId(int id);
 

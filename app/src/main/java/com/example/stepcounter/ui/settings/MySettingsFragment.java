@@ -37,7 +37,6 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
-
                 return true;
             });
         }

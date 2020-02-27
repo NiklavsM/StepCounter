@@ -37,8 +37,5 @@ public interface HistoryDao {
     HistoryEntity getHistoryEntryStatic(long day);
 
     @Query("SELECT * FROM history WHERE id = :id")
-    HistoryEntity getDayByIdStatic(int id);
-
-    @Query("SELECT * FROM history WHERE id = :id")
     LiveData<HistoryEntity> getDayById(int id);
 }

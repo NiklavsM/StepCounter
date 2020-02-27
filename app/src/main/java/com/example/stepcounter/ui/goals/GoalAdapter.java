@@ -73,8 +73,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
                 }
             });
         }
-
-
     }
 
     public interface OnItemClickListener {

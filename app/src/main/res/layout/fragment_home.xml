@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_delete_history"
-        android:layout_width="39dp"
-        android:layout_height="37dp"
+    <Button
+        android:id="@+id/btn_delete_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:src="@drawable/ic_delete"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Delete"
+        android:textColor="#ffff"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,9 +22,10 @@
         android:id="@+id/tv_date_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginTop="80dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2/18/2020" />
@@ -31,21 +34,11 @@
         android:id="@+id/relativeLayout2"
         android:layout_width="283dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="124dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_active_goal_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Active goal: "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_active_goal"
@@ -53,12 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_active_goal_label"
 
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="24dp"
             android:text="Iron Man"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            app:layout_constraintEnd_toEndOf="@+id/tv_active_goal_label"
-            app:layout_constraintStart_toStartOf="@+id/tv_active_goal_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_active_goal_label" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_active_goal_steps"
@@ -67,10 +61,10 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_toEndOf="@id/tv_active_goal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_active_goal_label"
+            app:layout_constraintEnd_toEndOf="@+id/tv_active_goal"
+            app:layout_constraintStart_toStartOf="@+id/tv_active_goal"
             app:layout_constraintTop_toBottomOf="@+id/tv_active_goal"
             tools:text="10000" />
 
@@ -82,6 +76,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/tv_active_goal_steps"
             android:text=" steps"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintBottom_toBottomOf="@+id/tv_active_goal_steps"
             app:layout_constraintStart_toEndOf="@+id/tv_active_goal_steps" />
 
@@ -92,11 +87,11 @@
             android:layout_below="@+id/tv_active_goal_label"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="20dp"
             android:layout_toEndOf="@id/tv_active_goal_steps_label"
             android:src="@drawable/ic_edit_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_active_goal"
             app:layout_constraintStart_toEndOf="@+id/tv_active_goal"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/tv_active_goal" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RelativeLayout
@@ -104,7 +99,6 @@
         android:layout_width="351dp"
         android:layout_height="65dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar">
 
@@ -113,8 +107,6 @@
             android:layout_width="123dp"
             android:layout_height="44dp"
             android:layout_centerInParent="true"
-            android:layout_marginStart="98dp"
-            android:layout_marginBottom="12dp"
             android:ems="10"
             android:hint="Add steps"
             android:inputType="number"
@@ -145,16 +137,18 @@
             android:id="@+id/tv_goal_percentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="50dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="50sp"
             tools:text="90" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="20sp"
             android:layout_toEndOf="@id/tv_goal_percentage"
             android:text="%"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
     </RelativeLayout>
 
     <RelativeLayout

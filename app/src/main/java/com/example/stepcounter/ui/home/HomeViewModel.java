@@ -27,8 +27,12 @@ public class HomeViewModel extends AndroidViewModel {
         goalsRepository = GoalsRepository.getInstance(application);
     }
 
-    public LiveData<HistoryEntity> getDayToEdit() {
-        return dayToEdit;
+    public LiveData<HistoryEntity> getDay(int historyId) {
+        if (historyId < 0) {
+            return dayToEdit = historyRepository.getHistoryEntry(Utils.getTodayNoTime());
+        }
+        return dayToEdit = historyRepository.getHistoryById(historyId);
+
     }
 
     public void setNewActiveGoal(Goal goal) {
@@ -57,11 +61,4 @@ public class HomeViewModel extends AndroidViewModel {
         historyRepository.deleteHistoryById(id);
     }
 
-    public void setHistory(int historyId) {
-        if (historyId < 0) {
-            dayToEdit = historyRepository.getHistoryEntry(Utils.getTodayNoTime());
-        } else {
-            dayToEdit = historyRepository.getHistoryById(historyId);
-        }
-    }
 }

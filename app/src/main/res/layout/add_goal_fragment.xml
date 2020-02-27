@@ -6,13 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.goals.AddEditGoalFragment">
 
+    <Button
+        android:id="@+id/btn_delete_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Delete"
+        android:textColor="#ffff"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
     <ImageView
         android:id="@+id/iv_award_icon_add_goal"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="120dp"
         android:src="@drawable/ic_award_star"
         app:layout_constraintEnd_toEndOf="@+id/goal_name_et"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="@+id/goal_name_et"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +33,7 @@
         android:id="@+id/goal_name_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="256dp"
         android:ems="10"
         android:hint="Name"
         android:inputType="textPersonName"
@@ -49,16 +62,5 @@
         app:layout_constraintEnd_toEndOf="@+id/goal_steps_et"
         app:layout_constraintStart_toStartOf="@+id/goal_steps_et"
         app:layout_constraintTop_toBottomOf="@+id/goal_steps_et" />
-
-    <ImageView
-        android:id="@+id/iv_delete_goal"
-        android:layout_width="39dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_delete"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
