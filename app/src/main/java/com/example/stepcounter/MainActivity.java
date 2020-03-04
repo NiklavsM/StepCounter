@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        if (item.getItemId() == R.id.settings_navvan) {
+        if (item.getItemId() == R.id.settings_nav) {
             navController.navigate(R.id.navigation_settings);
             return true;
         }

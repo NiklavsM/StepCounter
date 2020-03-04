@@ -48,11 +48,11 @@ public class GoalsFragment extends Fragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         goalAdapter.setOnItemClickListener(goal -> {
             if (!canEditGoals()) {
-                Toast.makeText(getContext(), "Goal editing disabled", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.goal_editing_disabled), Toast.LENGTH_LONG).show();
                 return;
             }
             if (goal.isActive()) {
-                Toast.makeText(getContext(), "Cannot edit an active goal", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.cannot_edit_active_goal), Toast.LENGTH_LONG).show();
                 return;
             }
             goToEditGoal(goal.getId());
@@ -74,7 +74,7 @@ public class GoalsFragment extends Fragment {
                     showUndoSnackbar(goalToRemove);
                 } else {
                     goalAdapter.notifyDataSetChanged();
-                    Snackbar.make(root, "Cannot delete an active goal", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(root, getString(R.string.cannot_delete_active_goal), Snackbar.LENGTH_LONG).show();
                 }
 
             }
@@ -85,9 +85,9 @@ public class GoalsFragment extends Fragment {
     }
 
     private void showUndoSnackbar(final Goal goal) {
-        Snackbar snackbar = Snackbar.make(getView(), goal.getName() + " goal removed",
+        Snackbar snackbar = Snackbar.make(getView(), goal.getName() + getString(R.string.goal_removed),
                 Snackbar.LENGTH_LONG);
-        snackbar.setAction("Undo", v -> goalsViewModel.addGoal(goal));
+        snackbar.setAction(getString(R.string.undo), v -> goalsViewModel.addGoal(goal));
         snackbar.show();
     }
 
@@ -100,7 +100,7 @@ public class GoalsFragment extends Fragment {
     }
 
     private boolean canEditGoals() {
-        return sharedPreferences.getBoolean(getContext().getString(R.string.goal_editing_enabled), true);
+        return sharedPreferences.getBoolean(getString(R.string.goal_editing_enabled), true);
     }
 
     private void goToEditGoal(int id) {

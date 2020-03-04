@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Delete"
+        android:text="@string/delete"
         android:textColor="#ffff"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="24dp"
-            android:text="Iron Man"
+            tools:text="Iron Man"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/tv_active_goal_steps"
-            android:text=" steps"
+            android:text="@string/steps"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintBottom_toBottomOf="@+id/tv_active_goal_steps"
             app:layout_constraintStart_toEndOf="@+id/tv_active_goal_steps" />
@@ -107,7 +107,7 @@
             android:layout_height="44dp"
             android:layout_centerInParent="true"
             android:ems="10"
-            android:hint="Add steps"
+            android:hint="@string/add_steps"
             android:inputType="number"
             android:maxLength="6"
             android:textAlignment="center" />
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
-            android:text="Steps taken: " />
+            android:text="@string/steps_taken" />
 
         <TextView
             android:id="@+id/tv_home_steps_taken"

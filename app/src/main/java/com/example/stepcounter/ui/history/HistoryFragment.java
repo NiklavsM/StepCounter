@@ -52,7 +52,7 @@ public class HistoryFragment extends Fragment {
             if (canEditHistory()) {
                 openHistory(history.getId());
             } else {
-                Toast.makeText(getContext(), "History edit mode is disabled", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), getString(R.string.history_edit_mode_disabled), Toast.LENGTH_LONG).show();
             }
         });
         if (canEditHistory()) {
@@ -76,13 +76,6 @@ public class HistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         btnAddHistory.setOnClickListener(v -> addHistory());
-    }
-
-    private void showUndoSnackbar(final HistoryEntity historyEntity) {
-        Snackbar snackbar = Snackbar.make(getView(), "Entry removed",
-                Snackbar.LENGTH_LONG);
-        snackbar.setAction("Undo", v -> historyViewModel.addHistory(historyEntity));
-        snackbar.show();
     }
 
     private void addHistory() {
@@ -113,7 +106,7 @@ public class HistoryFragment extends Fragment {
     }
 
     private boolean canEditHistory() {
-        return sharedPreferences.getBoolean(getContext().getString(R.string.history_editing_enabled), true);
+        return sharedPreferences.getBoolean(getString(R.string.history_editing_enabled), true);
     }
 
     private void openHistory(int id) {

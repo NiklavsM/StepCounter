@@ -3,6 +3,7 @@ package com.example.stepcounter.services;
 import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.LiveData;
 
+import com.example.stepcounter.R;
 import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.HistoryRepository;
 import com.example.stepcounter.utils.NotificationUtils;
@@ -45,12 +46,11 @@ public class NotificationService extends LifecycleService {
                 }
             }
             if (goalCompleted >= 1 && !goalReachedNotified) {
-                NotificationUtils.goalNotification(getApplicationContext(), currentGoalName + " goal completed!", "Well done!");
+                NotificationUtils.goalNotification(getApplicationContext(), currentGoalName + getString(R.string.goal_completed), getString(R.string.well_done));
                 goalReachedNotified = true;
             }
             if (goalCompleted >= 0.5 && goalCompleted < 1 && !goalHalfReachedNotified) {
-                NotificationUtils.goalNotification(getApplicationContext(), "Half way there!", (int) (100 * goalCompleted) + "% completed!"
-//                        getApplicationContext().getString(R.string.goal_half_reached_notification_title) + currentGoalName
+                NotificationUtils.goalNotification(getApplicationContext(), getString(R.string.half_way_there), (int) (100 * goalCompleted) + getString(R.string.percentage_completed)
                 );
                 goalHalfReachedNotified = true;
             }

@@ -1,6 +1,5 @@
 package com.example.stepcounter.ui.goals;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalHolder> {
 
     public void setGoals(List<Goal> goals) {
         this.goals = goals;
-        Log.v("UPDATE GOALS", "UPDATE GOALS");
         notifyDataSetChanged();
     }
 

@@ -1,7 +1,6 @@
 package com.example.stepcounter.ui.settings;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -29,13 +28,13 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         if (deleteHistory != null) {
             deleteHistory.setOnPreferenceClickListener(p -> {
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to delete all the history?")
-                        .setPositiveButton("Delete", (dialog, which) -> {
+                        .setTitle(getString(R.string.confirmation))
+                        .setMessage(getString(R.string.are_you_sure_delete_all_history))
+                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
                             historyRepository.deleteAllHistory();
-                            Toast.makeText(getContext(), "History deleted", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), getString(R.string.history_deleted), Toast.LENGTH_LONG).show();
                         })
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(getString(R.string.cancel), null)
                         .show();
                 return true;
             });

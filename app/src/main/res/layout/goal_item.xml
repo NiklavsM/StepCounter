@@ -18,8 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="Active"
+            android:text="@string/active"
             android:textColor="#21DD00"
+            tools:visibility="visible"
             android:visibility="invisible" />
 
         <RelativeLayout
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_goal_step_count"
                 android:layout_alignParentEnd="true"
-                android:text="steps" />
+                android:text="@string/steps" />
 
         </RelativeLayout>
     </RelativeLayout>

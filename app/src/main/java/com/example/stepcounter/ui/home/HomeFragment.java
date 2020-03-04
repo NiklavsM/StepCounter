@@ -94,14 +94,15 @@ public class HomeFragment extends Fragment {
 
     private void removeHistory(int id) {
         new androidx.appcompat.app.AlertDialog.Builder(getContext())
-                .setTitle("Confirmation")
+                .setTitle(getString(R.string.confirmation))
                 .setIcon(R.drawable.ic_delete)
-                .setMessage("Do you want to delete this days entry?")
-                .setPositiveButton("Confirm", (dialog, which) -> {
+                .setMessage(getString(R.string.do_you_want_to_delete_this_days_entry))
+                .setPositiveButton(getString(R.string.confirm), (dialog, which) -> {
                     homeViewModel.removeHistory(id);
                     navController.navigate(R.id.action_navigation_home_to_navigation_history);
+                    Toast.makeText(getContext(),getString(R.string.history_entry_removed), Toast.LENGTH_LONG).show();
                 })
-                .setNegativeButton("Cancel", null).show();
+                .setNegativeButton(getString(R.string.cancel), null).show();
 
     }
 
@@ -116,7 +117,7 @@ public class HomeFragment extends Fragment {
             ListView lw = ((AlertDialog) dialog).getListView();
             int index = lw.getCheckedItemPosition();
             if (index != -1) {
-                Toast.makeText(getActivity(), "Goal set: " + goals.get(index).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.goal_set) + goals.get(index).getName(), Toast.LENGTH_SHORT).show();
                 homeViewModel.setNewActiveGoal(goals.get(index));
             }
         });
@@ -125,18 +126,18 @@ public class HomeFragment extends Fragment {
     private void addStepsButtonClicked() {
         String stepsToAdd = etAddSteps.getText().toString();
         if (stepsToAdd.trim().equals("")) {
-            Toast.makeText(getContext(), "Please add steps", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.toast_please_add_steps), Toast.LENGTH_SHORT).show();
         } else {
             etAddSteps.onEditorAction(EditorInfo.IME_ACTION_DONE);
             homeViewModel.addToHistory(Integer.parseInt(etAddSteps.getText().toString()));
-            Toast.makeText(getContext(), stepsToAdd + " steps added", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), stepsToAdd + getString(R.string.steps_added), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setupEditToolbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24px);
-        actionBar.setTitle("Edit history");
+        actionBar.setTitle(getString(R.string.edit_history));
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 

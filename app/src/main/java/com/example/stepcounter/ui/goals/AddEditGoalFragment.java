@@ -50,7 +50,7 @@ public class AddEditGoalFragment extends Fragment {
         btnRemoveGoal = view.findViewById(R.id.btn_delete_goal);
         btnSaveGoal.setOnClickListener(v -> saveGoal());
         if (bundle != null) {
-            activity.getSupportActionBar().setTitle("Edit goal");
+            activity.getSupportActionBar().setTitle(getString(R.string.edit_goal));
             btnRemoveGoal.setVisibility(View.VISIBLE);
             btnRemoveGoal.setOnClickListener(v -> deleteGoal(bundle.getInt(GOAL_ID)));
         }
@@ -61,14 +61,14 @@ public class AddEditGoalFragment extends Fragment {
 
     private void deleteGoal(int id) {
         new AlertDialog.Builder(getContext())
-                .setTitle("Confirmation")
+                .setTitle(getString(R.string.confirmation))
                 .setIcon(R.drawable.ic_delete)
-                .setMessage("Do you want to delete this goal?")
-                .setPositiveButton("Confirm", (dialog, which) -> {
+                .setMessage(getString(R.string.alert_do_you_want_to_delete_this_goal))
+                .setPositiveButton(getString(R.string.confirm), (dialog, which) -> {
                     mViewModel.deleteGoal(id);
                     navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
                 })
-                .setNegativeButton("Cancel", null).show();
+                .setNegativeButton(getString(R.string.cancel), null).show();
 
     }
 
@@ -104,11 +104,11 @@ public class AddEditGoalFragment extends Fragment {
         hideKeyboard(requireActivity());
 
         if (goalName.trim().equals("")) {
-            showToast("Please add name");
+            showToast(getString(R.string.toast_please_add_name));
             return;
         }
         if (steps.trim().equals("")) {
-            showToast("Please add steps");
+            showToast(getString(R.string.toast_please_add_steps));
             return;
         }
 
@@ -121,10 +121,10 @@ public class AddEditGoalFragment extends Fragment {
         }
 
         if (successful) {
-            showToast("Goal saved");
+            showToast(getString(R.string.goal_saved));
             navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
         } else {
-            showToast("Goal with this name already exists");
+            showToast(getString(R.string.goal_with_this_name_exists));
         }
     }
 

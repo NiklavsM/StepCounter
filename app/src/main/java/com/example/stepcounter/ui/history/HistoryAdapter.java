@@ -33,7 +33,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
     public void onBindViewHolder(@NonNull HistoryHolder holder, int position) {
         HistoryEntity currentHistory = history.get(position);
 
-        holder.tvDate.setText(fromLongToDateString((long) currentHistory.getDay()));
+        holder.tvDate.setText(fromLongToDateString(currentHistory.getDay()));
         int percentage = (int) 100.0 * currentHistory.getStepsTaken() / currentHistory.getGoalSteps();
         holder.tvProgress.setText(String.valueOf(percentage));
         holder.tvGoal.setText(currentHistory.getGoalName());
@@ -43,10 +43,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         } else {
             holder.imHistoryIcon.setImageResource(R.drawable.ic_award_star_empty);
         }
-    }
-
-    public HistoryEntity getHistoryAtIndex(int index) {
-        return history.get(index);
     }
 
     @Override

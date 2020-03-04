@@ -15,11 +15,11 @@ public class GoalSelector {
 
         String[] goalNames = goals.stream().map(Goal::getName).toArray(String[]::new);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Select goal");
+        builder.setTitle(activity.getString(R.string.select_goal));
         builder.setIcon(R.drawable.ic_star_24px);
         builder.setSingleChoiceItems(goalNames, -1, (dialog, which) -> {
         });
-        builder.setPositiveButton("Set", onPositiveButtonClicked);
+        builder.setPositiveButton(activity.getString(R.string.set), onPositiveButtonClicked);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

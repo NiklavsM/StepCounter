@@ -30,10 +30,6 @@ public class HistoryViewModel extends AndroidViewModel {
         return history;
     }
 
-    public void deleteHistory(HistoryEntity history) {
-        historyRepository.deleteHistory(history);
-    }
-
     public void addHistory(HistoryEntity historyEntity) {
         historyRepository.insertHistory(historyEntity);
     }
