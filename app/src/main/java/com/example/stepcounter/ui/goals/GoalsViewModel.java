@@ -34,4 +34,5 @@ public class GoalsViewModel extends AndroidViewModel {
     public void addGoal(Goal goal) {
         repository.insertGoal(goal);
     }
+
 }

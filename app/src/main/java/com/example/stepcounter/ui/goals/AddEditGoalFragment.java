@@ -67,6 +67,7 @@ public class AddEditGoalFragment extends Fragment {
                 .setPositiveButton(getString(R.string.confirm), (dialog, which) -> {
                     mViewModel.deleteGoal(id);
                     navController.navigate(R.id.action_AddEditGoalFragment_to_navigation_goals);
+                    Toast.makeText(getContext(), getString(R.string.goal_removed_toast), Toast.LENGTH_LONG).show();
                 })
                 .setNegativeButton(getString(R.string.cancel), null).show();
 

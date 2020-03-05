@@ -27,18 +27,21 @@ public class MySettingsFragment extends PreferenceFragmentCompat {
         deleteHistory = findPreference(getString(R.string.delete_all_history));
         if (deleteHistory != null) {
             deleteHistory.setOnPreferenceClickListener(p -> {
-                new AlertDialog.Builder(getContext())
-                        .setTitle(getString(R.string.confirmation))
-                        .setMessage(getString(R.string.are_you_sure_delete_all_history))
-                        .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
-                            historyRepository.deleteAllHistory();
-                            Toast.makeText(getContext(), getString(R.string.history_deleted), Toast.LENGTH_LONG).show();
-                        })
-                        .setNegativeButton(getString(R.string.cancel), null)
-                        .show();
+                onDeleteHistory();
                 return true;
             });
         }
+    }
 
+    private void onDeleteHistory() {
+        new AlertDialog.Builder(getContext())
+                .setTitle(getString(R.string.confirmation))
+                .setMessage(getString(R.string.are_you_sure_delete_all_history))
+                .setPositiveButton(getString(R.string.delete), (dialog, which) -> {
+                    historyRepository.deleteAllHistory();
+                    Toast.makeText(getContext(), getString(R.string.history_deleted), Toast.LENGTH_LONG).show();
+                })
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show();
     }
 }

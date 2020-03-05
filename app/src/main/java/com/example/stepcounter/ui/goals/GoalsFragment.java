@@ -74,7 +74,7 @@ public class GoalsFragment extends Fragment {
                     showUndoSnackbar(goalToRemove);
                 } else {
                     goalAdapter.notifyDataSetChanged();
-                    Snackbar.make(root, getString(R.string.cannot_delete_active_goal), Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.cannot_delete_active_goal), Toast.LENGTH_LONG).show();
                 }
 
             }

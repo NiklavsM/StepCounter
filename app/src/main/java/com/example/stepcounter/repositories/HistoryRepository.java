@@ -39,10 +39,6 @@ public class HistoryRepository {
         new UpdateHistoryAsyncTask(historyDao).execute(history);
     }
 
-    public void deleteHistory(HistoryEntity history) {
-        new DeleteHistoryAsyncTask(historyDao).execute(history);
-    }
-
     public void deleteHistoryById(Integer id) {
         new DeleteHistoryByIdAsyncTask(historyDao).execute(id);
     }

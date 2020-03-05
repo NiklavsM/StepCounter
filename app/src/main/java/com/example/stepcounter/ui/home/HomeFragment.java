@@ -1,6 +1,8 @@
 package com.example.stepcounter.ui.home;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +35,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-
-import static com.example.stepcounter.utils.GoalSelector.showSelectGoalDialog;
 
 public class HomeFragment extends Fragment {
 
@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
                 .setPositiveButton(getString(R.string.confirm), (dialog, which) -> {
                     homeViewModel.removeHistory(id);
                     navController.navigate(R.id.action_navigation_home_to_navigation_history);
-                    Toast.makeText(getContext(),getString(R.string.history_entry_removed), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), getString(R.string.history_entry_removed), Toast.LENGTH_LONG).show();
                 })
                 .setNegativeButton(getString(R.string.cancel), null).show();
 
@@ -130,6 +130,7 @@ public class HomeFragment extends Fragment {
         } else {
             etAddSteps.onEditorAction(EditorInfo.IME_ACTION_DONE);
             homeViewModel.addToHistory(Integer.parseInt(etAddSteps.getText().toString()));
+            etAddSteps.getText().clear();
             Toast.makeText(getContext(), stepsToAdd + getString(R.string.steps_added), Toast.LENGTH_SHORT).show();
         }
     }
@@ -169,6 +170,16 @@ public class HomeFragment extends Fragment {
         homeViewModel.getDay(historyId).observe(getViewLifecycleOwner(), day -> {
             if (day != null) updateFields(day);
         });
+    }
 
+    private void showSelectGoalDialog(List<Goal> goals, Activity activity, DialogInterface.OnClickListener onPositiveButtonClicked) {
+        String[] goalNames = goals.stream().map(Goal::getName).toArray(String[]::new);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle(activity.getString(R.string.select_goal));
+        builder.setIcon(R.drawable.ic_star_24px);
+        builder.setSingleChoiceItems(goalNames, -1, null);
+        builder.setPositiveButton(activity.getString(R.string.set), onPositiveButtonClicked);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

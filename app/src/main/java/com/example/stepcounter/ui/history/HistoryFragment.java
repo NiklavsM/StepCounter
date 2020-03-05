@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.Calendar;
 
 import static com.example.stepcounter.ui.home.HomeFragment.HISTORY_ID;
+import static com.example.stepcounter.utils.Utils.getTodayNoTime;
 import static com.example.stepcounter.utils.Utils.removeTime;
 
 public class HistoryFragment extends Fragment {
@@ -102,6 +103,7 @@ public class HistoryFragment extends Fragment {
                 today.get(Calendar.MONTH),
                 today.get(Calendar.DAY_OF_MONTH)
         );
+        datePickerDialog.getDatePicker().setMaxDate(getTodayNoTime());
         datePickerDialog.show();
     }
 

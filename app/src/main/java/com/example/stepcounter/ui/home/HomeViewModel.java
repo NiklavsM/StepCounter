@@ -1,7 +1,6 @@
 package com.example.stepcounter.ui.home;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -11,9 +10,10 @@ import com.example.stepcounter.database.Goal;
 import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.GoalsRepository;
 import com.example.stepcounter.repositories.HistoryRepository;
-import com.example.stepcounter.utils.Utils;
 
 import java.util.List;
+
+import static com.example.stepcounter.utils.Utils.getTodayNoTime;
 
 public class HomeViewModel extends AndroidViewModel {
 
@@ -29,22 +29,24 @@ public class HomeViewModel extends AndroidViewModel {
 
     public LiveData<HistoryEntity> getDay(int historyId) {
         if (historyId < 0) {
-            return dayToEdit = historyRepository.getHistoryEntry(Utils.getTodayNoTime());
+            return dayToEdit = historyRepository.getHistoryEntry(getTodayNoTime());
         }
         return dayToEdit = historyRepository.getHistoryById(historyId);
 
     }
 
     public void setNewActiveGoal(Goal goal) {
-        Goal oldGoal = goalsRepository.getActiveGoal();
-        oldGoal.setActive(false);
-        goalsRepository.updateGoal(oldGoal);
-        HistoryEntity history = dayToEdit.getValue();
-        history.setGoalName(goal.getName());
-        history.setGoalSteps(goal.getSteps());
-        goal.setActive(true);
-        goalsRepository.updateGoal(goal);
-        historyRepository.updateHistory(history);
+        HistoryEntity day = dayToEdit.getValue();
+        if (day.getDay() == getTodayNoTime()) {
+            Goal oldGoal = goalsRepository.getActiveGoal();
+            oldGoal.setActive(false);
+            goalsRepository.updateGoal(oldGoal);
+            goalsRepository.updateGoal(goal);
+            goal.setActive(true);
+        }
+        day.setGoalName(goal.getName());
+        day.setGoalSteps(goal.getSteps());
+        historyRepository.updateHistory(day);
     }
 
     public List<Goal> getGoals() {

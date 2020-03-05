@@ -13,6 +13,7 @@
     <string name="set">Set</string>
     <string name="name">Name</string>
     <string name="steps">Steps</string>
+    <string name="steps_lowercase">&#160; steps</string>
     <string name="save_goal">Save Goal</string>
 
     <string name="edit_goal">Edit goal</string>
@@ -27,8 +28,6 @@
     <string name="history_editing_enabled" translatable="false">history_editing_enabled</string>
 
     <string name="goal_accomplished_channel_name">goal_accomplished_channel_name</string>
-    <string name="goal_reached_notification_title">Goal reached: </string>
-    <string name="goal_reached_notification_body">Well done</string>
     <string name="goal_half_reached_notification_title">Half way there to accomplish goal: &#160;</string>
     <string name="well_done">Well done!</string>
     
@@ -58,6 +57,7 @@
     <string name="half_way_there">Half way there!</string>
     <string name="percentage_completed">% completed!</string>
     <string name="add_steps">Add steps</string>
-    <string name="steps_taken">Steps taken:</string>
+    <string name="steps_taken">Steps taken: &#160;</string>
     <string name="active">Active</string>
+    <string name="goal_removed_toast">Goal removed</string>
 </resources>

@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_goal_step_count"
                 android:layout_alignParentEnd="true"
-                android:text="@string/steps" />
+                android:text="@string/steps_lowercase" />
 
         </RelativeLayout>
     </RelativeLayout>
