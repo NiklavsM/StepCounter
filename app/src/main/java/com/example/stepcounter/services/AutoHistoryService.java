@@ -23,20 +23,19 @@ public class AutoHistoryService extends LifecycleService {
         Application app = getApplication();
         historyRepository = HistoryRepository.getInstance(app);
         goalsRepository = GoalsRepository.getInstance(app);
-
-        LiveData<HistoryEntity> today = historyRepository.getHistoryEntry(Utils.getTodayNoTime());
+        final long todayDate = Utils.getTodayNoTime();
+        LiveData<HistoryEntity> today = historyRepository.getHistoryEntry(todayDate);
         today.observe(this, history -> {
             if (history == null) {
-                createNewHistoryEntry();
+                createNewHistoryEntry(todayDate);
             }
         });
         super.onStart(intent, startId);
     }
 
-
-    private void createNewHistoryEntry() {
+    private void createNewHistoryEntry(long todayDate) {
         Goal activeGoal = goalsRepository.getActiveGoal();
-        HistoryEntity newDay = new HistoryEntity(Utils.getTodayNoTime(), 0, activeGoal);
+        HistoryEntity newDay = new HistoryEntity(todayDate, 0, activeGoal);
         historyRepository.insertHistory(newDay);
     }
 }
