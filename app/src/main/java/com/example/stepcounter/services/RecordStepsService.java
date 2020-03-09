@@ -15,6 +15,8 @@ import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.HistoryRepository;
 import com.example.stepcounter.utils.Utils;
 
+import static com.example.stepcounter.utils.NotificationUtils.getRunningInBackgroundNotification;
+
 public class RecordStepsService extends Service implements SensorEventListener {
 
     int previousSteps = -1;
@@ -63,5 +65,11 @@ public class RecordStepsService extends Service implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startForeground(1, getRunningInBackgroundNotification(this));
+        return START_STICKY;
     }
 }

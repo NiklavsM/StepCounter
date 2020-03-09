@@ -19,16 +19,15 @@ import com.example.stepcounter.R;
 public class NotificationUtils {
 
     private static final int GOAL_ACCOMPLISHED_ID = 1000;
-    public static final String GOAL_ACCOMPLISHED_CHANNEL_ID = "goal_accomplished_channel";
+    private static final String GOAL_ACCOMPLISHED_CHANNEL_ID = "goal_accomplished_channel";
+    private static final String RUNNING_IN_BACKGROUND_CHANNEL_ID = "RUNNING_IN_BACKGROUND_CHANNEL_ID";
 
     public static void goalNotification(Context context, String titleText, String bodyText) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationChannel channel = new NotificationChannel(GOAL_ACCOMPLISHED_CHANNEL_ID,
-                context.getString(R.string.goal_accomplished_channel_name), NotificationManager.IMPORTANCE_HIGH);
-        notificationManager.createNotificationChannel(channel);
+        addChannel(context, GOAL_ACCOMPLISHED_CHANNEL_ID, context.getString(R.string.goal_accomplished_channel_name), NotificationManager.IMPORTANCE_HIGH);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,GOAL_ACCOMPLISHED_CHANNEL_ID)
-                .setColor(ContextCompat.getColor(context,R.color.colorPrimary))
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, GOAL_ACCOMPLISHED_CHANNEL_ID)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_directions_walk_24px)
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(titleText)
@@ -38,6 +37,26 @@ public class NotificationUtils {
                 .setAutoCancel(true);
 
         notificationManager.notify(GOAL_ACCOMPLISHED_ID, builder.build());
+    }
+
+
+    public static Notification getRunningInBackgroundNotification(Context context) {
+        addChannel(context, RUNNING_IN_BACKGROUND_CHANNEL_ID, context.getString(R.string.running_in_background), NotificationManager.IMPORTANCE_LOW);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        Notification notification = new NotificationCompat
+                .Builder(context, RUNNING_IN_BACKGROUND_CHANNEL_ID)
+                .setContentTitle(context.getString(R.string.running_in_background))
+                .setLargeIcon(largeIcon(context))
+                .setSmallIcon(R.drawable.ic_directions_walk_24px)
+                .setContentIntent(pendingIntent).build();
+        return notification;
+    }
+
+    private static void addChannel(Context context, String id, String name, int importance) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationChannel channel = new NotificationChannel(id, name, importance);
+        notificationManager.createNotificationChannel(channel);
     }
 
     private static PendingIntent contentIntent(Context context) {

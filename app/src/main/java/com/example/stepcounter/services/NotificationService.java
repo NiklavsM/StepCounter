@@ -1,5 +1,7 @@
 package com.example.stepcounter.services;
 
+import android.content.Intent;
+
 import androidx.lifecycle.LifecycleService;
 import androidx.lifecycle.LiveData;
 
@@ -8,6 +10,8 @@ import com.example.stepcounter.database.HistoryEntity;
 import com.example.stepcounter.repositories.HistoryRepository;
 import com.example.stepcounter.utils.NotificationUtils;
 import com.example.stepcounter.utils.Utils;
+
+import static com.example.stepcounter.utils.NotificationUtils.getRunningInBackgroundNotification;
 
 public class NotificationService extends LifecycleService {
 
@@ -28,6 +32,14 @@ public class NotificationService extends LifecycleService {
                 notifyIfNeeded(history);
             }
         });
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        super.onStartCommand(intent, flags, startId);
+        startForeground(1, getRunningInBackgroundNotification(this));
+        return START_STICKY;
     }
 
     private void notifyIfNeeded(HistoryEntity history) {

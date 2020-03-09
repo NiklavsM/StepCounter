@@ -27,10 +27,10 @@
     <string name="goal_editing_enabled" translatable="false">goal_editing_enabled</string>
     <string name="history_editing_enabled" translatable="false">history_editing_enabled</string>
 
-    <string name="goal_accomplished_channel_name">goal_accomplished_channel_name</string>
+    <string name="goal_accomplished_channel_name">Goal accomplished channel</string>
     <string name="goal_half_reached_notification_title">Half way there to accomplish goal: &#160;</string>
     <string name="well_done">Well done!</string>
-    
+
     <string name="toast_please_add_name">Please add name</string>
     <string name="toast_please_add_steps">Please add steps</string>
 
@@ -60,4 +60,5 @@
     <string name="steps_taken">Steps taken: &#160;</string>
     <string name="active">Active</string>
     <string name="goal_removed_toast">Goal removed</string>
+    <string name="running_in_background">Running in the background</string>
 </resources>

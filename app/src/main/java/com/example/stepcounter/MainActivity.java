@@ -69,22 +69,22 @@ public class MainActivity extends AppCompatActivity {
         Intent notificationService = new Intent(this, NotificationService.class);
 
         if (autoRecordEnabled()) {
-            startService(autoRecordService);
+            startForegroundService(autoRecordService);
         }
         if (notificationsEnabled()) {
-            startService(notificationService);
+            startForegroundService(notificationService);
         }
         listener = (preferences, key) -> {
             if (key.equals(getString(R.string.auto_recording))) {
                 if (autoRecordEnabled()) {
-                    startService(autoRecordService);
+                    startForegroundService(autoRecordService);
                 } else {
                     stopService(autoRecordService);
                 }
             }
             if (key.equals(getString(R.string.notifications_enabled))) {
                 if (notificationsEnabled()) {
-                    startService(notificationService);
+                    startForegroundService(notificationService);
                 } else {
                     stopService(notificationService);
                 }
